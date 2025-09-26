@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英文打字練習 | English Typing Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .difficulty-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .difficulty-btn.active {
+            background: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-left: auto;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .practice-area {
+            padding: 30px;
+        }
+
+        .sentence-display {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .sentence {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            user-select: none;
+            position: relative;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .audio-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .audio-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+        }
+
+        .audio-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .audio-btn.playing {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .speed-slider {
+            width: 80px;
+            height: 4px;
+            border-radius: 2px;
+            background: #ddd;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .char {
+            position: relative;
+        }
+
+        .char.correct {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .char.incorrect {
+            background-color: #ffcdd2;
+            color: #c62828;
+        }
+
+        .char.current {
+            background-color: #2196F3;
+            color: white;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .translation {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        .input-area {
+            position: relative;
+        }
+
+        .typing-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+
+        .typing-input:focus {
+            border-color: #4CAF50;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .vocabulary {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff3e0;
+            border-radius: 10px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .vocab-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        .vocab-item {
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .vocab-word {
+            font-weight: bold;
+            color: #d84315;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+
+        .vocab-word:hover {
+            color: #2196F3;
+        }
+
+        .word-audio-btn {
+            background: #e3f2fd;
+            border: none;
+            border-radius: 12px;
+            padding: 2px 6px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #1976D2;
+            transition: all 0.2s;
+        }
+
+        .word-audio-btn:hover {
+            background: #2196F3;
+            color: white;
+        }
+
+        .next-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .next-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .feedback {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .feedback.excellent { color: #4CAF50; }
+        .feedback.good { color: #2196F3; }
+        .feedback.fair { color: #FF9800; }
+        .feedback.poor { color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 英文打字練習</h1>
+            <p>English Typing Practice | B1-C1 Level</p>
+        </div>
+
+        <div class="controls">
+            <div class="difficulty-selector">
+                <span>難度:</span>
+                <button class="difficulty-btn" data-level="B1">B1 中級</button>
+                <button class="difficulty-btn active" data-level="B2">B2 中高級</button>
+                <button class="difficulty-btn" data-level="C1">C1 高級</button>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="wpm">0</span>
+                    <span>WPM</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="accuracy">100%</span>
+                    <span>準確率</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="progress">0/10</span>
+                    <span>進度</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-area">
+            <div class="sentence-display">
+                <div class="sentence" id="target-sentence"></div>
+                <div class="audio-controls">
+                    <button class="audio-btn" id="play-sentence">
+                        🔊 播放句子
+                    </button>
+                    <button class="audio-btn" id="play-slow">
+                        🐌 慢速播放
+                    </button>
+                    <div class="speed-control">
+                        <span>語速:</span>
+                        <input type="range" class="speed-slider" id="speed-slider" min="0.3" max="1.5" step="0.1" value="0.9">
+                        <span id="speed-value">0.9x</span>
+                    </div>
+                </div>
+                <div class="translation" id="translation"></div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <div class="input-area">
+                <textarea 
+                    class="typing-input" 
+                    id="typing-input" 
+                    placeholder="在此輸入上方英文句子..."
+                    rows="3"
+                ></textarea>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <button class="next-btn" id="next-btn" disabled>下一句 →</button>
+
+            <div class="vocabulary" id="vocabulary" style="display: none;">
+                <div class="vocab-title">📚 重點單字與片語</div>
+                <div id="vocab-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class TypingPractice {
+            constructor() {
+                this.currentLevel = 'B2';
+                this.currentSentenceIndex = 0;
+                this.currentCharIndex = 0;
+                this.startTime = null;
+                this.errors = 0;
+                this.totalChars = 0;
+                this.completed = 0;
+                this.speechRate = 0.9;
+                this.currentSpeech = null;
+                
+                this.sentences = {
+                    B1: [
+                        {
+                            text: "The weather forecast suggests that tomorrow will be significantly warmer than today.",
+                            translation: "天氣預報顯示明天會比今天暖和得多。",
+                            vocabulary: [
+                                { word: "forecast", meaning: "預報" },
+                                { word: "significantly", meaning: "顯著地" }
+                            ]
+                        },
+                        {
+                            text: "She decided to pursue a career in environmental science after watching a documentary.",
+                            translation: "在看了一部紀錄片後，她決定從事環境科學的職業。",
+                            vocabulary: [
+                                { word: "pursue", meaning: "追求，從事" },
+                                { word: "environmental", meaning: "環境的" },
+                                { word: "documentary", meaning: "紀錄片" }
+                            ]
+                        },
+                        {
+                            text: "The restaurant manager apologized for the inconvenience caused by the delayed service.",
+                            translation: "餐廳經理為延誤服務造成的不便道歉。",
+                            vocabulary: [
+                                { word: "apologized", meaning: "道歉" },
+                                { word: "inconvenience", meaning: "不便" },
+                                { word: "delayed", meaning: "延誤的" }
+                            ]
+                        },
+                        {
+                            text: "Regular exercise and a balanced diet are essential for maintaining good health.",
+                            translation: "規律運動和均衡飲食對於維持良好健康是必不可少的。",
+                            vocabulary: [
+                                { word: "balanced", meaning: "均衡的" },
+                                { word: "essential", meaning: "必不可少的" },
+                                { word: "maintaining", meaning: "維持" }
+                            ]
+                        },
+                        {
+                            text: "The conference will focus on innovative solutions to address climate change challenges.",
+                            translation: "這次會議將專注於應對氣候變化挑戰的創新解決方案。",
+                            vocabulary: [
+                                { word: "conference", meaning: "會議" },
+                                { word: "innovative", meaning: "創新的" },
+                                { word: "address", meaning: "應對，處理" }
+                            ]
+                        },
+                        {
+                            text: "Online learning platforms have become increasingly popular among students worldwide.",
+                            translation: "線上學習平台在全世界的學生中越來越受歡迎。",
+                            vocabulary: [
+                                { word: "platforms", meaning: "平台" },
+                                { word: "increasingly", meaning: "越來越" },
+                                { word: "popular", meaning: "受歡迎的" }
+                            ]
+                        },
+                        {
+                            text: "The company implemented new security measures to protect customer information.",
+                            translation: "公司實施了新的安全措施來保護客戶信息。",
+                            vocabulary: [
+                                { word: "implemented", meaning: "實施" },
+                                { word: "measures", meaning: "措施" },
+                                { word: "protect", meaning: "保護" }
+                            ]
+                        },
+                        {
+                            text: "Cultural diversity enriches our understanding of different perspectives and traditions.",
+                            translation: "文化多樣性豐富了我們對不同觀點和傳統的理解。",
+                            vocabulary: [
+                                { word: "diversity", meaning: "多樣性" },
+                                { word: "enriches", meaning: "豐富" },
+                                { word: "perspectives", meaning: "觀點" }
+                            ]
+                        },
+                        {
+                            text: "Scientists continue to explore renewable energy sources as alternatives to fossil fuels.",
+                            translation: "科學家們繼續探索可再生能源作為化石燃料的替代品。",
+                            vocabulary: [
+                                { word: "renewable", meaning: "可再生的" },
+                                { word: "sources", meaning: "來源" },
+                                { word: "alternatives", meaning: "替代品" }
+                            ]
+                        },
+                        {
+                            text: "The museum exhibition displays artifacts from ancient civilizations around the world.",
+                            translation: "博物館展覽展示了來自世界各地古代文明的文物。",
+                            vocabulary: [
+                                { word: "exhibition", meaning: "展覽" },
+                                { word: "artifacts", meaning: "文物" },
+                                { word: "civilizations", meaning: "文明" }
+                            ]
+                        }
+                    ],
+                    B2: [
+                        {
+                            text: "The implementation of artificial intelligence in healthcare has revolutionized diagnostic procedures.",
+                            translation: "人工智能在醫療保健領域的實施已經徹底改變了診斷程序。",
+                            vocabulary: [
+                                { word: "implementation", meaning: "實施" },
+                                { word: "revolutionized", meaning: "徹底改變" },
+                                { word: "diagnostic", meaning: "診斷的" }
+                            ]
+                        },
+                        {
+                            text: "Despite the challenging circumstances, the team demonstrated remarkable resilience and adaptability.",
+                            translation: "儘管環境充滿挑戰，團隊展現了非凡的韌性和適應能力。",
+                            vocabulary: [
+                                { word: "circumstances", meaning: "環境，情況" },
+                                { word: "remarkable", meaning: "非凡的" },
+                                { word: "resilience", meaning: "韌性" },
+                                { word: "adaptability", meaning: "適應能力" }
+                            ]
+                        },
+                        {
+                            text: "The sustainable development goals require collaborative efforts from governments and corporations worldwide.",
+                            translation: "可持續發展目標需要全球政府和企業的合作努力。",
+                            vocabulary: [
+                                { word: "sustainable", meaning: "可持續的" },
+                                { word: "collaborative", meaning: "合作的" },
+                                { word: "corporations", meaning: "企業" }
+                            ]
+                        },
+                        {
+                            text: "Contemporary literature often explores themes of identity, belonging, and social transformation.",
+                            translation: "當代文學經常探索身份認同、歸屬感和社會變革的主題。",
+                            vocabulary: [
+                                { word: "contemporary", meaning: "當代的" },
+                                { word: "explores", meaning: "探索" },
+                                { word: "transformation", meaning: "變革" }
+                            ]
+                        },
+                        {
+                            text: "The psychological impact of social media on adolescents has become a significant research focus.",
+                            translation: "社交媒體對青少年心理影響已成為重要研究焦點。",
+                            vocabulary: [
+                                { word: "psychological", meaning: "心理的" },
+                                { word: "adolescents", meaning: "青少年" },
+                                { word: "significant", meaning: "重要的" }
+                            ]
+                        },
+                        {
+                            text: "Economic fluctuations demonstrate the interconnected nature of global financial markets.",
+                            translation: "經濟波動顯示了全球金融市場的相互關聯性。",
+                            vocabulary: [
+                                { word: "fluctuations", meaning: "波動" },
+                                { word: "interconnected", meaning: "相互關聯的" },
+                                { word: "financial", meaning: "金融的" }
+                            ]
+                        },
+                        {
+                            text: "Technological advancements have fundamentally altered communication patterns across different generations.",
+                            translation: "技術進步根本改變了不同世代之間的溝通模式。",
+                            vocabulary: [
+                                { word: "advancements", meaning: "進步" },
+                                { word: "fundamentally", meaning: "根本地" },
+                                { word: "generations", meaning: "世代" }
+                            ]
+                        },
+                        {
+                            text: "Archaeological discoveries continue to challenge our assumptions about ancient civilizations.",
+                            translation: "考古發現持續挑戰我們對古代文明的假設。",
+                            vocabulary: [
+                                { word: "archaeological", meaning: "考古的" },
+                                { word: "challenge", meaning: "挑戰" },
+                                { word: "assumptions", meaning: "假設" }
+                            ]
+                        },
+                        {
+                            text: "The complexity of urban planning requires interdisciplinary collaboration among various stakeholders.",
+                            translation: "城市規劃的複雜性需要各利益相關者之間的跨學科合作。",
+                            vocabulary: [
+                                { word: "complexity", meaning: "複雜性" },
+                                { word: "interdisciplinary", meaning: "跨學科的" },
+                                { word: "stakeholders", meaning: "利益相關者" }
+                            ]
+                        },
+                        {
+                            text: "Environmental conservation efforts must balance ecological protection with economic development needs.",
+                            translation: "環境保護努力必須平衡生態保護與經濟發展需求。",
+                            vocabulary: [
+                                { word: "conservation", meaning: "保護" },
+                                { word: "ecological", meaning: "生態的" },
+                                { word: "development", meaning: "發展" }
+                            ]
+                        }
+                    ],
+                    C1: [
+                        {
+                            text: "The paradigm shift towards renewable energy necessitates comprehensive policy restructuring and substantial infrastructure investment.",
+                            translation: "向可再生能源的範式轉變需要全面的政策重組和大量的基礎設施投資。",
+                            vocabulary: [
+                                { word: "paradigm shift", meaning: "範式轉變" },
+                                { word: "necessitates", meaning: "需要，必須" },
+                                { word: "comprehensive", meaning: "全面的" },
+                                { word: "substantial", meaning: "大量的" }
+                            ]
+                        },
+                        {
+                            text: "The philosophical implications of consciousness studies intersect with neuroscience, cognitive psychology, and existential inquiry.",
+                            translation: "意識研究的哲學意涵與神經科學、認知心理學和存在主義探究相互交織。",
+                            vocabulary: [
+                                { word: "implications", meaning: "意涵，含義" },
+                                { word: "intersect", meaning: "相互交織" },
+                                { word: "cognitive", meaning: "認知的" },
+                                { word: "existential", meaning: "存在主義的" }
+                            ]
+                        },
+                        {
+                            text: "Quantum computing represents an unprecedented technological breakthrough with profound ramifications for cryptography and data processing.",
+                            translation: "量子計算代表著前所未有的技術突破，對密碼學和數據處理具有深遠影響。",
+                            vocabulary: [
+                                { word: "unprecedented", meaning: "前所未有的" },
+                                { word: "breakthrough", meaning: "突破" },
+                                { word: "ramifications", meaning: "影響，後果" },
+                                { word: "cryptography", meaning: "密碼學" }
+                            ]
+                        },
+                        {
+                            text: "The intricate interplay between genetic predisposition and environmental factors determines phenotypic expression in complex organisms.",
+                            translation: "遺傳傾向與環境因素之間複雜的相互作用決定了複雜生物體的表現型表達。",
+                            vocabulary: [
+                                { word: "intricate", meaning: "複雜的" },
+                                { word: "interplay", meaning: "相互作用" },
+                                { word: "predisposition", meaning: "傾向" },
+                                { word: "phenotypic", meaning: "表現型的" }
+                            ]
+                        },
+                        {
+                            text: "Postcolonial literary criticism examines the lingering effects of imperialism on cultural identity and narrative construction.",
+                            translation: "後殖民文學批評檢視帝國主義對文化身份和敘事建構的持續影響。",
+                            vocabulary: [
+                                { word: "postcolonial", meaning: "後殖民的" },
+                                { word: "lingering", meaning: "持續的" },
+                                { word: "imperialism", meaning: "帝國主義" },
+                                { word: "narrative", meaning: "敘事" }
+                            ]
+                        },
+                        {
+                            text: "Epistemological frameworks in empirical research methodology require rigorous scrutiny of assumptions underlying knowledge claims.",
+                            translation: "實證研究方法論中的認識論框架需要對知識主張基礎假設進行嚴格審視。",
+                            vocabulary: [
+                                { word: "epistemological", meaning: "認識論的" },
+                                { word: "empirical", meaning: "實證的" },
+                                { word: "methodology", meaning: "方法論" },
+                                { word: "scrutiny", meaning: "審視" }
+                            ]
+                        },
+                        {
+                            text: "The phenomenological approach to consciousness elucidates the subjective experience of temporality and intentionality.",
+                            translation: "對意識的現象學方法闡明了時間性和意向性的主觀體驗。",
+                            vocabulary: [
+                                { word: "phenomenological", meaning: "現象學的" },
+                                { word: "elucidates", meaning: "闡明" },
+                                { word: "temporality", meaning: "時間性" },
+                                { word: "intentionality", meaning: "意向性" }
+                            ]
+                        },
+                        {
+                            text: "Macroeconomic stabilization policies must accommodate heterogeneous market dynamics and asymmetric information structures.",
+                            translation: "宏觀經濟穩定政策必須適應異質市場動態和非對稱信息結構。",
+                            vocabulary: [
+                                { word: "macroeconomic", meaning: "宏觀經濟的" },
+                                { word: "heterogeneous", meaning: "異質的" },
+                                { word: "asymmetric", meaning: "非對稱的" },
+                                { word: "structures", meaning: "結構" }
+                            ]
+                        },
+                        {
+                            text: "Neuroplasticity research demonstrates the brain's capacity for synaptic reorganization throughout the human lifespan.",
+                            translation: "神經可塑性研究證明了大腦在人類整個生命週期中突觸重組的能力。",
+                            vocabulary: [
+                                { word: "neuroplasticity", meaning: "神經可塑性" },
+                                { word: "synaptic", meaning: "突觸的" },
+                                { word: "reorganization", meaning: "重組" },
+                                { word: "lifespan", meaning: "生命週期" }
+                            ]
+                        },
+                        {
+                            text: "Poststructuralist discourse analysis deconstructs hegemonic narratives to reveal underlying power dynamics.",
+                            translation: "後結構主義話語分析解構霸權敘事以揭示潛在的權力動態。",
+                            vocabulary: [
+                                { word: "poststructuralist", meaning: "後結構主義的" },
+                                { word: "deconstructs", meaning: "解構" },
+                                { word: "hegemonic", meaning: "霸權的" },
+                                { word: "dynamics", meaning: "動態" }
+                            ]
+                        }
+                    ]
+                };
+                
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.loadSentence();
+                this.initSpeech();
+            }
+
+            initSpeech() {
+                // Check if speech synthesis is available
+                if ('speechSynthesis' in window) {
+                    this.speechAvailable = true;
+                } else {
+                    this.speechAvailable = false;
+                    console.log('Speech synthesis not available');
+                }
+            }
+
+            bindEvents() {
+                // Difficulty selection
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelector('.difficulty-btn.active').classList.remove('active');
+                        e.target.classList.add('active');
+                        this.currentLevel = e.target.dataset.level;
+                        this.currentSentenceIndex = 0;
+                        this.completed = 0;
+                        this.loadSentence();
+                    });
+                });
+
+                // Typing input
+                const input = document.getElementById('typing-input');
+                input.addEventListener('input', (e) => {
+                    this.handleTyping(e.target.value);
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Tab') {
+                        e.preventDefault();
+                    }
+                });
+
+                // Next button
+                document.getElementById('next-btn').addEventListener('click', () => {
+                    this.nextSentence();
+                });
+
+                // Speech controls
+                document.getElementById('play-sentence').addEventListener('click', () => {
+                    this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, this.speechRate);
+                });
+
+                document.getElementById('play-slow').addEventListener('click', () => {
+                    this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, 0.6);
+                });
+
+                document.getElementById('speed-slider').addEventListener('input', (e) => {
+                    this.speechRate = parseFloat(e.target.value);
+                    document.getElementById('speed-value').textContent = this.speechRate + 'x';
+                });
+            }
+
+            loadSentence() {
+                const sentences = this.sentences[this.currentLevel];
+                if (this.currentSentenceIndex >= sentences.length) {
+                    this.currentSentenceIndex = 0;
+                }
+                
+                const current = sentences[this.currentSentenceIndex];
+                const sentenceElement = document.getElementById('target-sentence');
+                const translationElement = document.getElementById('translation');
+                const vocabElement = document.getElementById('vocabulary');
+                const vocabContent = document.getElementById('vocab-content');
+
+                // Display sentence with individual characters
+                sentenceElement.innerHTML = current.text
+                    .split('')
+                    .map(char => `<span class="char">${char}</span>`)
+                    .join('');
+
+                translationElement.textContent = current.translation;
+
+                // Show vocabulary with audio buttons
+                vocabContent.innerHTML = current.vocabulary
+                    .map(item => `
+                        <div class="vocab-item">
+                            <span class="vocab-word" onclick="typingPractice.speakText('${item.word}', 0.8)">${item.word}</span>
+                            <button class="word-audio-btn" onclick="typingPractice.speakText('${item.word}', 0.8)">🔊</button>
+                            : ${item.meaning}
+                        </div>
+                    `).join('');
+                vocabElement.style.display = 'block';
+
+                // Reset input and states
+                document.getElementById('typing-input').value = '';
+                document.getElementById('next-btn').disabled = true;
+                document.getElementById('feedback').textContent = '';
+                this.currentCharIndex = 0;
+                this.startTime = null;
+                this.errors = 0;
+                this.totalChars = current.text.length;
+
+                this.updateProgress();
+                this.updateCharacterDisplay();
+                
+                // Stop any ongoing speech
+                if (this.currentSpeech) {
+                    speechSynthesis.cancel();
+                }
+            }
+
+            speakText(text, rate = 0.9) {
+                if (!this.speechAvailable) {
+                    alert('抱歉，您的瀏覽器不支援語音功能');
+                    return;
+                }
+
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = rate;
+                utterance.pitch = 1;
+                utterance.volume = 0.8;
+
+                // Visual feedback
+                const playBtn = document.getElementById('play-sentence');
+                const slowBtn = document.getElementById('play-slow');
+                
+                utterance.onstart = () => {
+                    if (rate > 0.7) {
+                        playBtn.textContent = '⏸️ 播放中...';
+                        playBtn.classList.add('playing');
+                    } else {
+                        slowBtn.textContent = '⏸️ 慢速播放中...';
+                        slowBtn.classList.add('playing');
+                    }
+                };
+
+                utterance.onend = () => {
+                    playBtn.textContent = '🔊 播放句子';
+                    slowBtn.textContent = '🐌 慢速播放';
+                    playBtn.classList.remove('playing');
+                    slowBtn.classList.remove('playing');
+                };
+
+                utterance.onerror = () => {
+                    playBtn.textContent = '🔊 播放句子';
+                    slowBtn.textContent = '🐌 慢速播放';
+                    playBtn.classList.remove('playing');
+                    slowBtn.classList.remove('playing');
+                    console.log('Speech synthesis error');
+                };
+
+                this.currentSpeech = utterance;
+                speechSynthesis.speak(utterance);
+            }
+
+            handleTyping(inputValue) {
+                if (!this.startTime && inputValue.length > 0) {
+                    this.startTime = Date.now();
+                }
+
+                const targetText = this.sentences[this.currentLevel][this.currentSentenceIndex].text;
+                const chars = document.querySelectorAll('.char');
+
+                // Reset all character classes
+                chars.forEach(char => {
+                    char.classList.remove('correct', 'incorrect', 'current');
+                });
+
+                let correctChars = 0;
+                let hasError = false;
+
+                // Check each character
+                for (let i = 0; i < Math.max(inputValue.length, targetText.length); i++) {
+                    if (i < inputValue.length && i < targetText.length) {
+                        if (inputValue[i] === targetText[i]) {
+                            chars[i].classList.add('correct');
+                            correctChars++;
+                        } else {
+                            chars[i].classList.add('incorrect');
+                            hasError = true;
+                            if (i >= this.currentCharIndex) {
+                                this.errors++;
+                                this.currentCharIndex = i + 1;
+                            }
+                        }
+                    }
+                }
+
+                // Mark current character
+                if (inputValue.length < targetText.length) {
+                    chars[inputValue.length].classList.add('current');
+                }
+
+                // Update stats in real-time
+                if (this.startTime && inputValue.length > 0) {
+                    this.updateStats(inputValue.length, correctChars);
+                }
+
+                // Check if completed
+                if (inputValue === targetText) {
+                    this.completeCurrentSentence();
+                }
+            }
+
+            updateStats(typedLength, correctChars) {
+                if (this.startTime && typedLength > 0) {
+                    const timeElapsed = (Date.now() - this.startTime) / 1000 / 60; // minutes
+                    // Calculate words typed (standard: 5 characters = 1 word)
+                    const grossWPM = Math.round((typedLength / 5) / timeElapsed) || 0;
+                    // Calculate net WPM (subtract errors)
+                    const netWPM = Math.max(0, Math.round(((correctChars) / 5) / timeElapsed)) || 0;
+                    
+                    document.getElementById('wpm').textContent = netWPM;
+                }
+
+                const accuracy = typedLength > 0 ? Math.round((correctChars / typedLength) * 100) : 100;
+                document.getElementById('accuracy').textContent = accuracy + '%';
+            }
+
+            completeCurrentSentence() {
+                this.completed++;
+                document.getElementById('next-btn').disabled = false;
+                
+                const accuracy = parseInt(document.getElementById('accuracy').textContent);
+                const wpm = parseInt(document.getElementById('wpm').textContent);
+                
+                let feedback = '';
+                let feedbackClass = '';
+                
+                if (accuracy >= 98 && wpm >= 40) {
+                    feedback = '🌟 優秀！準確率和速度都很棒！';
+                    feedbackClass = 'excellent';
+                } else if (accuracy >= 95 && wpm >= 30) {
+                    feedback = '👍 很好！繼續保持！';
+                    feedbackClass = 'good';
+                } else if (accuracy >= 90 && wpm >= 20) {
+                    feedback = '📈 不錯！還有進步空間！';
+                    feedbackClass = 'fair';
+                } else {
+                    feedback = '💪 繼續練習，你會越來越好的！';
+                    feedbackClass = 'poor';
+                }
+                
+                const feedbackElement = document.getElementById('feedback');
+                feedbackElement.textContent = feedback;
+                feedbackElement.className = 'feedback ' + feedbackClass;
+
+                this.updateProgress();
+            }
+
+            nextSentence() {
+                this.currentSentenceIndex++;
+                if (this.currentSentenceIndex >= this.sentences[this.currentLevel].length) {
+                    this.currentSentenceIndex = 0;
+                }
+                this.loadSentence();
+            }
+
+            updateProgress() {
+                const total = this.sentences[this.currentLevel].length;
+                const current = this.currentSentenceIndex + 1;
+                document.getElementById('progress').textContent = `${current}/${total}`;
+                
+                const percentage = (current / total) * 100;
+                document.getElementById('progress-fill').style.width = percentage + '%';
+            }
+
+            updateCharacterDisplay() {
+                const chars = document.querySelectorAll('.char');
+                chars.forEach((char, index) => {
+                    if (index === 0) {
+                        char.classList.add('current');
+                    }
+                });
+            }
+        }
+
+        // Initialize the app
+        let typingPractice;
+        document.addEventListener('DOMContentLoaded', () => {
+            typingPractice = new TypingPractice();
+        });
+    </script>
+</body>
+</html>
