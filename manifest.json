@@ -1,0 +1,138 @@
+{
+  "name": "英文打字練習 | English Typing Practice",
+  "short_name": "英文打字練習",
+  "description": "免費線上英文打字練習工具，提供B1-C1級別英語句子練習，提升英文打字速度與準確率",
+  "start_url": "/english_typing_practice/",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#4CAF50",
+  "orientation": "portrait-primary",
+  "scope": "/english_typing_practice/",
+  "lang": "zh-TW",
+  "dir": "ltr",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop-screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "英文打字練習桌面版截圖"
+    },
+    {
+      "src": "screenshots/mobile-screenshot.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "英文打字練習手機版截圖"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "開始練習",
+      "short_name": "練習",
+      "description": "快速開始英文打字練習",
+      "url": "/english_typing_practice/?action=start",
+      "icons": [
+        {
+          "src": "icons/shortcut-start.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "B1 中級",
+      "short_name": "B1",
+      "description": "開始 B1 中級英文打字練習",
+      "url": "/english_typing_practice/?level=B1",
+      "icons": [
+        {
+          "src": "icons/shortcut-b1.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "B2 中高級",
+      "short_name": "B2",
+      "description": "開始 B2 中高級英文打字練習",
+      "url": "/english_typing_practice/?level=B2",
+      "icons": [
+        {
+          "src": "icons/shortcut-b2.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "C1 高級",
+      "short_name": "C1",
+      "description": "開始 C1 高級英文打字練習",
+      "url": "/english_typing_practice/?level=C1",
+      "icons": [
+        {
+          "src": "icons/shortcut-c1.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
+}

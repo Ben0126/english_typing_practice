@@ -64,6 +64,14 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="msapplication-TileColor" content="#4CAF50">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    
     <!-- Preload Critical Resources -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -504,21 +512,67 @@
         }
 
         /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Focus indicators */
+        .audio-btn:focus,
+        .difficulty-btn:focus,
+        .next-btn:focus,
+        .word-audio-btn:focus {
+            outline: 3px solid #2196F3;
+            outline-offset: 2px;
+        }
+
+        .speed-slider:focus {
+            outline: 3px solid #4CAF50;
+            outline-offset: 2px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .char.correct {
+                background-color: #000;
+                color: #fff;
+            }
+            
+            .char.incorrect {
+                background-color: #fff;
+                color: #000;
+                border: 2px solid #000;
+            }
+            
+            .char.current {
+                background-color: #0000ff;
+                color: #fff;
+            }
+        }
+
+        /* Reduced motion support */
         @media (prefers-reduced-motion: reduce) {
             .char.current {
                 animation: none;
                 background-color: #1976D2;
             }
             
-            .next-btn:hover {
+            .next-btn:hover,
+            .audio-btn:hover {
                 transform: none;
             }
-        }
-
-        /* Loading States */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
+            
+            * {
+                transition: none !important;
+                animation: none !important;
+            }
         }
     </style>
 </head>
@@ -565,21 +619,23 @@
 
         <main class="practice-area" role="main">
             <section class="sentence-display" aria-label="練習句子">
-                <div class="sentence" id="target-sentence" role="text" aria-label="目標句子"></div>
-                <div class="audio-controls">
-                    <button class="audio-btn" id="play-sentence">
+                <div class="sentence" id="target-sentence" role="text" aria-label="目標句子" aria-live="polite"></div>
+                <div class="audio-controls" role="group" aria-label="語音控制">
+                    <button class="audio-btn" id="play-sentence" aria-label="播放完整句子" aria-describedby="play-sentence-desc">
                         🔊 播放句子
                     </button>
-                    <button class="audio-btn" id="play-slow">
+                    <div id="play-sentence-desc" class="sr-only">點擊播放當前英文句子的完整發音</div>
+                    <button class="audio-btn" id="play-slow" aria-label="慢速播放句子" aria-describedby="play-slow-desc">
                         🐌 慢速播放
                     </button>
-                    <div class="speed-control">
-                        <span>語速:</span>
-                        <input type="range" class="speed-slider" id="speed-slider" min="0.3" max="1.5" step="0.1" value="0.9">
-                        <span id="speed-value">0.9x</span>
+                    <div id="play-slow-desc" class="sr-only">點擊以較慢語速播放當前英文句子</div>
+                    <div class="speed-control" role="group" aria-label="語速控制">
+                        <label for="speed-slider">語速:</label>
+                        <input type="range" class="speed-slider" id="speed-slider" min="0.3" max="1.5" step="0.1" value="0.9" aria-describedby="speed-value">
+                        <span id="speed-value" aria-live="polite">0.9x</span>
                     </div>
                 </div>
-                <div class="translation" id="translation" aria-label="中文翻譯"></div>
+                <div class="translation" id="translation" aria-label="中文翻譯" aria-live="polite"></div>
             </section>
 
             <div class="progress-bar" role="progressbar" aria-label="打字進度">
@@ -638,6 +694,14 @@
                     <h3>🆓 完全免費</h3>
                     <p>無需註冊或付費，完全免費使用所有功能，讓每個人都能輕鬆提升英文打字能力。</p>
                 </article>
+                <article class="feature-card">
+                    <h3>⌨️ 鍵盤快捷鍵</h3>
+                    <p>支援豐富的鍵盤快捷鍵，提升操作效率：Ctrl+Enter 下一句，Ctrl+P 播放，Alt+1/2/3 切換級別。</p>
+                </article>
+                <article class="feature-card">
+                    <h3>♿ 無障礙設計</h3>
+                    <p>完整的 ARIA 標籤支援，高對比度模式，螢幕閱讀器友善，讓每個人都能輕鬆使用。</p>
+                </article>
             </div>
         </section>
 
@@ -662,6 +726,27 @@
                 
                 // Cache DOM elements for better performance
                 this.elements = {};
+                
+                // Performance monitoring
+                this.performanceMetrics = {
+                    typingStartTime: null,
+                    totalTypingTime: 0,
+                    keystrokes: 0,
+                    errors: 0
+                };
+                
+                // Debounce utility
+                this.debounce = (func, wait) => {
+                    let timeout;
+                    return function executedFunction(...args) {
+                        const later = () => {
+                            clearTimeout(timeout);
+                            func(...args);
+                        };
+                        clearTimeout(timeout);
+                        timeout = setTimeout(later, wait);
+                    };
+                };
                 
                 this.sentences = {
                     B1: [
@@ -960,6 +1045,7 @@
                 this.bindEvents();
                 this.loadSentence();
                 this.initSpeech();
+                this.initPerformanceMonitoring();
                 this.trackUserEngagement();
             }
 
@@ -991,6 +1077,64 @@
                 } else {
                     this.speechAvailable = false;
                     console.log('Speech synthesis not available');
+                }
+            }
+
+            initPerformanceMonitoring() {
+                // Monitor typing performance
+                this.performanceMetrics.typingStartTime = Date.now();
+                
+                // Monitor page load performance
+                if ('performance' in window) {
+                    window.addEventListener('load', () => {
+                        setTimeout(() => {
+                            const perfData = performance.getEntriesByType('navigation')[0];
+                            const timing = {
+                                domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                                loadComplete: perfData.loadEventEnd - perfData.loadEventStart,
+                                totalLoadTime: perfData.loadEventEnd - perfData.fetchStart
+                            };
+                            
+                            console.log('Performance Metrics:', timing);
+                            this.trackEvent('performance_metrics', timing);
+                        }, 0);
+                    });
+                }
+
+                // Monitor typing accuracy and speed
+                this.performanceObserver = new PerformanceObserver((list) => {
+                    for (const entry of list.getEntries()) {
+                        if (entry.entryType === 'measure') {
+                            console.log(`${entry.name}: ${entry.duration}ms`);
+                            this.trackEvent('performance_measure', {
+                                name: entry.name,
+                                duration: entry.duration
+                            });
+                        }
+                    }
+                });
+
+                try {
+                    this.performanceObserver.observe({ entryTypes: ['measure'] });
+                } catch (e) {
+                    console.log('Performance Observer not supported');
+                }
+
+                // Monitor memory usage (if available)
+                if ('memory' in performance) {
+                    setInterval(() => {
+                        const memoryInfo = {
+                            usedJSHeapSize: performance.memory.usedJSHeapSize,
+                            totalJSHeapSize: performance.memory.totalJSHeapSize,
+                            jsHeapSizeLimit: performance.memory.jsHeapSizeLimit
+                        };
+                        
+                        // Only log if memory usage is high
+                        if (memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit > 0.8) {
+                            console.warn('High memory usage detected:', memoryInfo);
+                            this.trackEvent('high_memory_usage', memoryInfo);
+                        }
+                    }, 30000); // Check every 30 seconds
                 }
             }
 
@@ -1027,9 +1171,14 @@
                     });
                 });
 
-                // Typing input
+                // Typing input with debounce
+                const debouncedTyping = this.debounce((value) => {
+                    this.handleTyping(value);
+                }, 50); // 50ms debounce for smooth typing
+                
                 this.elements.input.addEventListener('input', (e) => {
-                    this.handleTyping(e.target.value);
+                    this.performanceMetrics.keystrokes++;
+                    debouncedTyping(e.target.value);
                 });
 
                 this.elements.input.addEventListener('keydown', (e) => {
@@ -1065,15 +1214,103 @@
                     this.elements.speedValue.textContent = this.speechRate + 'x';
                 });
 
-                // Keyboard shortcuts
+                // Enhanced keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
-                    if (e.ctrlKey && e.key === 'Enter') {
-                        e.preventDefault();
-                        if (!this.elements.nextBtn.disabled) {
-                            this.nextSentence();
+                    // Prevent default for our custom shortcuts
+                    if (e.ctrlKey || e.altKey) {
+                        switch (e.key) {
+                            case 'Enter':
+                                if (e.ctrlKey) {
+                                    e.preventDefault();
+                                    if (!this.elements.nextBtn.disabled) {
+                                        this.nextSentence();
+                                    }
+                                }
+                                break;
+                            case 'p':
+                                if (e.ctrlKey) {
+                                    e.preventDefault();
+                                    this.elements.playSentenceBtn.click();
+                                }
+                                break;
+                            case 's':
+                                if (e.ctrlKey) {
+                                    e.preventDefault();
+                                    this.elements.playSlowBtn.click();
+                                }
+                                break;
+                            case '1':
+                                if (e.altKey) {
+                                    e.preventDefault();
+                                    document.querySelector('[data-level="B1"]').click();
+                                }
+                                break;
+                            case '2':
+                                if (e.altKey) {
+                                    e.preventDefault();
+                                    document.querySelector('[data-level="B2"]').click();
+                                }
+                                break;
+                            case '3':
+                                if (e.altKey) {
+                                    e.preventDefault();
+                                    document.querySelector('[data-level="C1"]').click();
+                                }
+                                break;
+                            case 'Tab':
+                                // Enhanced tab navigation
+                                if (e.shiftKey) {
+                                    this.focusPreviousElement();
+                                } else {
+                                    this.focusNextElement();
+                                }
+                                e.preventDefault();
+                                break;
+                            case 'Escape':
+                                e.preventDefault();
+                                this.elements.input.focus();
+                                break;
                         }
                     }
+                    
+                    // Space bar to play/pause audio when focused on audio controls
+                    if (e.key === ' ' && e.target.classList.contains('audio-btn')) {
+                        e.preventDefault();
+                        e.target.click();
+                    }
                 });
+            }
+
+            focusNextElement() {
+                const focusableElements = this.getFocusableElements();
+                const currentIndex = focusableElements.indexOf(document.activeElement);
+                const nextIndex = (currentIndex + 1) % focusableElements.length;
+                focusableElements[nextIndex].focus();
+            }
+
+            focusPreviousElement() {
+                const focusableElements = this.getFocusableElements();
+                const currentIndex = focusableElements.indexOf(document.activeElement);
+                const prevIndex = currentIndex === 0 ? focusableElements.length - 1 : currentIndex - 1;
+                focusableElements[prevIndex].focus();
+            }
+
+            getFocusableElements() {
+                const focusableSelectors = [
+                    'button:not([disabled])',
+                    'input:not([disabled])',
+                    'textarea:not([disabled])',
+                    'select:not([disabled])',
+                    'a[href]',
+                    '[tabindex]:not([tabindex="-1"])'
+                ];
+                
+                return Array.from(document.querySelectorAll(focusableSelectors.join(', ')))
+                    .filter(element => {
+                        return element.offsetParent !== null && // Element is visible
+                               !element.hasAttribute('aria-hidden') &&
+                               element.getAttribute('tabindex') !== '-1';
+                    });
             }
 
             trackEvent(eventName, data = {}) {
@@ -1189,8 +1426,11 @@
             }
 
             handleTyping(inputValue) {
+                performance.mark('typing-start');
+                
                 if (!this.startTime && inputValue.length > 0) {
                     this.startTime = Date.now();
+                    this.performanceMetrics.typingStartTime = this.startTime;
                 }
 
                 const targetText = this.sentences[this.currentLevel][this.currentSentenceIndex].text;
@@ -1215,6 +1455,7 @@
                             hasError = true;
                             if (i >= this.currentCharIndex) {
                                 this.errors++;
+                                this.performanceMetrics.errors++;
                                 this.currentCharIndex = i + 1;
                             }
                         }
@@ -1235,6 +1476,9 @@
                 if (inputValue === targetText) {
                     this.completeCurrentSentence();
                 }
+                
+                performance.mark('typing-end');
+                performance.measure('typing-processing', 'typing-start', 'typing-end');
             }
 
             updateStats(typedLength, correctChars) {
@@ -1330,11 +1574,65 @@
             
             // Service Worker for PWA capabilities
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js').catch(() => {
-                    // Silently fail if service worker not available
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                        
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New version available, show update notification
+                                    showUpdateNotification();
+                                }
+                            });
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+                
+                // Listen for service worker messages
+                navigator.serviceWorker.addEventListener('message', (event) => {
+                    if (event.data && event.data.type === 'CACHE_UPDATED') {
+                        console.log('Cache updated:', event.data.version);
+                    }
                 });
             }
         });
+
+        // Update notification function
+        function showUpdateNotification() {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                const notification = new Notification('英文打字練習更新', {
+                    body: '新版本已準備就緒，點擊重新載入頁面以使用最新功能！',
+                    icon: '/icons/icon-192x192.png',
+                    tag: 'app-update',
+                    requireInteraction: true,
+                    actions: [
+                        {
+                            action: 'reload',
+                            title: '重新載入'
+                        },
+                        {
+                            action: 'dismiss',
+                            title: '稍後'
+                        }
+                    ]
+                });
+                
+                notification.onclick = () => {
+                    window.location.reload();
+                    notification.close();
+                };
+                
+                // Auto-close after 10 seconds
+                setTimeout(() => {
+                    notification.close();
+                }, 10000);
+            }
+        }
 
         // Performance optimization
         window.addEventListener('load', () => {
@@ -1342,6 +1640,11 @@
             if (typingPractice && typingPractice.speechAvailable) {
                 // Preload speech synthesis voices
                 speechSynthesis.getVoices();
+            }
+            
+            // Request notification permission for PWA features
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
             }
         });
     </script>
