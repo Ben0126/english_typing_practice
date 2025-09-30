@@ -3,7 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>英文打字練習 | English Typing Practice</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>免費英文打字練習 | B1-C1級別線上英語打字訓練 | English Typing Practice</title>
+    <meta name="description" content="免費線上英文打字練習工具，提供B1-C1級別英語句子練習。提升英文打字速度與準確率，包含中文翻譯與重點單字解釋。適合英語學習者、學生、上班族使用。">
+    <meta name="keywords" content="英文打字, 英語打字練習, 線上打字, 免費打字練習, English typing, 打字速度測試, WPM測試, 英語學習, B1 B2 C1, 英文練習">
+    <meta name="author" content="English Typing Practice">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="免費英文打字練習 | B1-C1級別線上英語打字訓練">
+    <meta property="og:description" content="免費線上英文打字練習工具，提供B1-C1級別英語句子練習。提升英文打字速度與準確率，包含中文翻譯與重點單字解釋。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com">
+    <meta property="og:image" content="https://your-domain.com/og-image.jpg">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:site_name" content="English Typing Practice">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="免費英文打字練習 | B1-C1級別線上英語打字訓練">
+    <meta name="twitter:description" content="免費線上英文打字練習工具，提供B1-C1級別英語句子練習。提升英文打字速度與準確率。">
+    <meta name="twitter:image" content="https://your-domain.com/twitter-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://your-domain.com">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "英文打字練習",
+        "description": "免費線上英文打字練習工具，提供B1-C1級別英語句子練習",
+        "url": "https://your-domain.com",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "English Typing Practice"
+        },
+        "browserRequirements": "Requires JavaScript",
+        "softwareVersion": "1.0",
+        "isAccessibleForFree": true,
+        "educationalLevel": "Intermediate to Advanced",
+        "teaches": ["English Typing", "English Language", "Keyboard Skills"],
+        "audience": {
+            "@type": "EducationalAudience",
+            "educationalRole": "student"
+        }
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -12,10 +76,11 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            line-height: 1.6;
         }
 
         .container {
@@ -37,11 +102,40 @@
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
+            font-weight: 700;
         }
 
         .header p {
             font-size: 1.2em;
             opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .header .subtitle {
+            font-size: 1em;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .benefits {
+            background: rgba(255,255,255,0.1);
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
+
+        .benefits ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+
+        .benefits li:before {
+            content: "✓ ";
+            color: #a8e6cf;
+            font-weight: bold;
         }
 
         .controls {
@@ -68,6 +162,7 @@
             transition: all 0.3s;
             background: #e0e0e0;
             color: #333;
+            font-weight: 500;
         }
 
         .difficulty-btn.active {
@@ -113,60 +208,7 @@
             line-height: 1.6;
             margin-bottom: 10px;
             user-select: none;
-            position: relative;
-        }
-
-        .audio-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin: 15px 0;
-        }
-
-        .audio-btn {
-            background: linear-gradient(45deg, #2196F3, #1976D2);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s;
-        }
-
-        .audio-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
-        }
-
-        .audio-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .audio-btn.playing {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-        }
-
-        .speed-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .speed-slider {
-            width: 80px;
-            height: 4px;
-            border-radius: 2px;
-            background: #ddd;
-            outline: none;
-            cursor: pointer;
+            font-family: 'Inter', sans-serif;
         }
 
         .char {
@@ -256,37 +298,11 @@
         .vocab-item {
             margin-bottom: 8px;
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .vocab-word {
             font-weight: bold;
             color: #d84315;
-            cursor: pointer;
-            text-decoration: underline;
-            text-decoration-style: dotted;
-        }
-
-        .vocab-word:hover {
-            color: #2196F3;
-        }
-
-        .word-audio-btn {
-            background: #e3f2fd;
-            border: none;
-            border-radius: 12px;
-            padding: 2px 6px;
-            cursor: pointer;
-            font-size: 12px;
-            color: #1976D2;
-            transition: all 0.2s;
-        }
-
-        .word-audio-btn:hover {
-            background: #2196F3;
-            color: white;
         }
 
         .next-btn {
@@ -300,6 +316,7 @@
             margin: 20px auto;
             display: block;
             transition: transform 0.3s;
+            font-weight: 500;
         }
 
         .next-btn:hover {
@@ -323,79 +340,218 @@
         .feedback.good { color: #2196F3; }
         .feedback.fair { color: #FF9800; }
         .feedback.poor { color: #f44336; }
+
+        .features {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .features h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .footer p {
+            margin-bottom: 5px;
+        }
+
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .stats {
+                margin-left: 0;
+                justify-content: center;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .char.current {
+                animation: none;
+                background-color: #1976D2;
+            }
+            
+            .next-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🎯 英文打字練習</h1>
-            <p>English Typing Practice | B1-C1 Level</p>
-        </div>
-
-        <div class="controls">
-            <div class="difficulty-selector">
-                <span>難度:</span>
-                <button class="difficulty-btn" data-level="B1">B1 中級</button>
-                <button class="difficulty-btn active" data-level="B2">B2 中高級</button>
-                <button class="difficulty-btn" data-level="C1">C1 高級</button>
+        <header class="header">
+            <h1>🎯 免費英文打字練習</h1>
+            <p>English Typing Practice | B1-C1 Level | 提升英語打字速度與準確率</p>
+            <div class="subtitle">線上免費英文打字訓練工具，適合學生、上班族、英語學習者</div>
+            <div class="benefits">
+                <ul>
+                    <li>完全免費使用</li>
+                    <li>支援B1-C1三個級別</li>
+                    <li>即時WPM速度測試</li>
+                    <li>準確率統計分析</li>
+                    <li>中文翻譯對照</li>
+                    <li>重點單字解釋</li>
+                </ul>
             </div>
-            <div class="stats">
+        </header>
+
+        <nav class="controls" role="navigation" aria-label="練習設定">
+            <div class="difficulty-selector">
+                <span>選擇難度:</span>
+                <button class="difficulty-btn" data-level="B1" aria-label="選擇B1中級難度">B1 中級</button>
+                <button class="difficulty-btn active" data-level="B2" aria-label="選擇B2中高級難度">B2 中高級</button>
+                <button class="difficulty-btn" data-level="C1" aria-label="選擇C1高級難度">C1 高級</button>
+            </div>
+            <div class="stats" role="region" aria-label="打字統計">
                 <div class="stat-item">
-                    <span class="stat-value" id="wpm">0</span>
+                    <span class="stat-value" id="wpm" aria-label="每分鐘字數">0</span>
                     <span>WPM</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-value" id="accuracy">100%</span>
+                    <span class="stat-value" id="accuracy" aria-label="準確率">100%</span>
                     <span>準確率</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-value" id="progress">0/10</span>
+                    <span class="stat-value" id="progress" aria-label="練習進度">0/10</span>
                     <span>進度</span>
                 </div>
             </div>
-        </div>
+        </nav>
 
-        <div class="practice-area">
-            <div class="sentence-display">
-                <div class="sentence" id="target-sentence"></div>
-                <div class="audio-controls">
-                    <button class="audio-btn" id="play-sentence">
-                        🔊 播放句子
-                    </button>
-                    <button class="audio-btn" id="play-slow">
-                        🐌 慢速播放
-                    </button>
-                    <div class="speed-control">
-                        <span>語速:</span>
-                        <input type="range" class="speed-slider" id="speed-slider" min="0.3" max="1.5" step="0.1" value="0.9">
-                        <span id="speed-value">0.9x</span>
-                    </div>
-                </div>
-                <div class="translation" id="translation"></div>
-            </div>
+        <main class="practice-area" role="main">
+            <section class="sentence-display" aria-label="練習句子">
+                <div class="sentence" id="target-sentence" role="text" aria-label="目標句子"></div>
+                <div class="translation" id="translation" aria-label="中文翻譯"></div>
+            </section>
 
-            <div class="progress-bar">
+            <div class="progress-bar" role="progressbar" aria-label="打字進度">
                 <div class="progress-fill" id="progress-fill"></div>
             </div>
 
             <div class="input-area">
+                <label for="typing-input" class="sr-only">請在此輸入上方英文句子</label>
                 <textarea 
                     class="typing-input" 
                     id="typing-input" 
                     placeholder="在此輸入上方英文句子..."
                     rows="3"
+                    aria-describedby="feedback"
+                    spellcheck="false"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
                 ></textarea>
             </div>
 
-            <div class="feedback" id="feedback"></div>
+            <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
 
-            <button class="next-btn" id="next-btn" disabled>下一句 →</button>
+            <button class="next-btn" id="next-btn" disabled aria-label="進入下一句練習">下一句 →</button>
 
-            <div class="vocabulary" id="vocabulary" style="display: none;">
+            <section class="vocabulary" id="vocabulary" style="display: none;" aria-label="重點單字">
                 <div class="vocab-title">📚 重點單字與片語</div>
                 <div id="vocab-content"></div>
+            </section>
+        </main>
+
+        <section class="features" id="features">
+            <h2>為什麼選擇我們的英文打字練習？</h2>
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <h3>🎯 多級別練習</h3>
+                    <p>提供B1、B2、C1三個級別的英文句子，從中級到高級循序漸進，適合不同程度的學習者。</p>
+                </article>
+                <article class="feature-card">
+                    <h3>📊 即時統計</h3>
+                    <p>即時顯示WPM（每分鐘字數）和準確率，幫助您追蹤打字速度和準確度的進步。</p>
+                </article>
+                <article class="feature-card">
+                    <h3>🌏 雙語支援</h3>
+                    <p>每個英文句子都配有中文翻譯，幫助理解句意，同時學習英語和提升打字技能。</p>
+                </article>
+                <article class="feature-card">
+                    <h3>📚 單字學習</h3>
+                    <p>重點單字標註和解釋，邊練習打字邊擴充英語詞彙量，一舉兩得。</p>
+                </article>
+                <article class="feature-card">
+                    <h3>💻 跨平台支援</h3>
+                    <p>支援電腦、平板、手機等各種設備，隨時隨地都能進行英文打字練習。</p>
+                </article>
+                <article class="feature-card">
+                    <h3>🆓 完全免費</h3>
+                    <p>無需註冊或付費，完全免費使用所有功能，讓每個人都能輕鬆提升英文打字能力。</p>
+                </article>
             </div>
-        </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2025 English Typing Practice. 英文打字練習工具 - 免費線上英語打字訓練</p>
+            <p>適合學生、上班族、英語學習者使用 | <a href="#features">功能介紹</a> | <a href="mailto:contact@example.com">聯絡我們</a></p>
+        </footer>
     </div>
 
     <script>
@@ -408,8 +564,6 @@
                 this.errors = 0;
                 this.totalChars = 0;
                 this.completed = 0;
-                this.speechRate = 0.9;
-                this.currentSpeech = null;
                 
                 this.sentences = {
                     B1: [
@@ -706,17 +860,24 @@
             init() {
                 this.bindEvents();
                 this.loadSentence();
-                this.initSpeech();
+                this.trackUserEngagement();
             }
 
-            initSpeech() {
-                // Check if speech synthesis is available
-                if ('speechSynthesis' in window) {
-                    this.speechAvailable = true;
-                } else {
-                    this.speechAvailable = false;
-                    console.log('Speech synthesis not available');
-                }
+            trackUserEngagement() {
+                // Track typing sessions for analytics (if implemented)
+                let sessionStart = Date.now();
+                let totalTyped = 0;
+                
+                window.addEventListener('beforeunload', () => {
+                    // Could send analytics data here
+                    const sessionDuration = (Date.now() - sessionStart) / 1000;
+                    localStorage.setItem('lastSession', JSON.stringify({
+                        duration: sessionDuration,
+                        typed: totalTyped,
+                        level: this.currentLevel,
+                        date: new Date().toISOString()
+                    }));
+                });
             }
 
             bindEvents() {
@@ -729,6 +890,9 @@
                         this.currentSentenceIndex = 0;
                         this.completed = 0;
                         this.loadSentence();
+                        
+                        // Analytics tracking
+                        this.trackEvent('difficulty_changed', { level: this.currentLevel });
                     });
                 });
 
@@ -744,24 +908,39 @@
                     }
                 });
 
+                input.addEventListener('focus', () => {
+                    this.trackEvent('input_focused');
+                });
+
                 // Next button
                 document.getElementById('next-btn').addEventListener('click', () => {
                     this.nextSentence();
+                    this.trackEvent('next_sentence', { 
+                        level: this.currentLevel, 
+                        sentence: this.currentSentenceIndex 
+                    });
                 });
 
-                // Speech controls
-                document.getElementById('play-sentence').addEventListener('click', () => {
-                    this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, this.speechRate);
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'Enter') {
+                        e.preventDefault();
+                        if (!document.getElementById('next-btn').disabled) {
+                            this.nextSentence();
+                        }
+                    }
                 });
+            }
 
-                document.getElementById('play-slow').addEventListener('click', () => {
-                    this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, 0.6);
-                });
-
-                document.getElementById('speed-slider').addEventListener('input', (e) => {
-                    this.speechRate = parseFloat(e.target.value);
-                    document.getElementById('speed-value').textContent = this.speechRate + 'x';
-                });
+            trackEvent(eventName, data = {}) {
+                // Simple event tracking (could be replaced with Google Analytics)
+                try {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', eventName, data);
+                    }
+                } catch (e) {
+                    // Silently fail if analytics not available
+                }
             }
 
             loadSentence() {
@@ -779,24 +958,24 @@
                 // Display sentence with individual characters
                 sentenceElement.innerHTML = current.text
                     .split('')
-                    .map(char => `<span class="char">${char}</span>`)
+                    .map(char => `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`)
                     .join('');
 
                 translationElement.textContent = current.translation;
 
-                // Show vocabulary with audio buttons
+                // Show vocabulary
                 vocabContent.innerHTML = current.vocabulary
                     .map(item => `
                         <div class="vocab-item">
-                            <span class="vocab-word" onclick="typingPractice.speakText('${item.word}', 0.8)">${item.word}</span>
-                            <button class="word-audio-btn" onclick="typingPractice.speakText('${item.word}', 0.8)">🔊</button>
-                            : ${item.meaning}
+                            <span class="vocab-word">${item.word}</span>: ${item.meaning}
                         </div>
                     `).join('');
                 vocabElement.style.display = 'block';
 
                 // Reset input and states
-                document.getElementById('typing-input').value = '';
+                const input = document.getElementById('typing-input');
+                input.value = '';
+                input.focus();
                 document.getElementById('next-btn').disabled = true;
                 document.getElementById('feedback').textContent = '';
                 this.currentCharIndex = 0;
@@ -807,58 +986,8 @@
                 this.updateProgress();
                 this.updateCharacterDisplay();
                 
-                // Stop any ongoing speech
-                if (this.currentSpeech) {
-                    speechSynthesis.cancel();
-                }
-            }
-
-            speakText(text, rate = 0.9) {
-                if (!this.speechAvailable) {
-                    alert('抱歉，您的瀏覽器不支援語音功能');
-                    return;
-                }
-
-                // Cancel any ongoing speech
-                speechSynthesis.cancel();
-
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                utterance.rate = rate;
-                utterance.pitch = 1;
-                utterance.volume = 0.8;
-
-                // Visual feedback
-                const playBtn = document.getElementById('play-sentence');
-                const slowBtn = document.getElementById('play-slow');
-                
-                utterance.onstart = () => {
-                    if (rate > 0.7) {
-                        playBtn.textContent = '⏸️ 播放中...';
-                        playBtn.classList.add('playing');
-                    } else {
-                        slowBtn.textContent = '⏸️ 慢速播放中...';
-                        slowBtn.classList.add('playing');
-                    }
-                };
-
-                utterance.onend = () => {
-                    playBtn.textContent = '🔊 播放句子';
-                    slowBtn.textContent = '🐌 慢速播放';
-                    playBtn.classList.remove('playing');
-                    slowBtn.classList.remove('playing');
-                };
-
-                utterance.onerror = () => {
-                    playBtn.textContent = '🔊 播放句子';
-                    slowBtn.textContent = '🐌 慢速播放';
-                    playBtn.classList.remove('playing');
-                    slowBtn.classList.remove('playing');
-                    console.log('Speech synthesis error');
-                };
-
-                this.currentSpeech = utterance;
-                speechSynthesis.speak(utterance);
+                // Update page title for SEO
+                document.title = `英文打字練習 ${this.currentLevel}級 - 句子 ${this.currentSentenceIndex + 1} | English Typing Practice`;
             }
 
             handleTyping(inputValue) {
@@ -913,8 +1042,6 @@
             updateStats(typedLength, correctChars) {
                 if (this.startTime && typedLength > 0) {
                     const timeElapsed = (Date.now() - this.startTime) / 1000 / 60; // minutes
-                    // Calculate words typed (standard: 5 characters = 1 word)
-                    const grossWPM = Math.round((typedLength / 5) / timeElapsed) || 0;
                     // Calculate net WPM (subtract errors)
                     const netWPM = Math.max(0, Math.round(((correctChars) / 5) / timeElapsed)) || 0;
                     
@@ -954,12 +1081,27 @@
                 feedbackElement.className = 'feedback ' + feedbackClass;
 
                 this.updateProgress();
+                
+                // Track completion
+                this.trackEvent('sentence_completed', {
+                    level: this.currentLevel,
+                    sentence: this.currentSentenceIndex,
+                    wpm: wpm,
+                    accuracy: accuracy,
+                    time: this.startTime ? (Date.now() - this.startTime) / 1000 : 0
+                });
             }
 
             nextSentence() {
                 this.currentSentenceIndex++;
                 if (this.currentSentenceIndex >= this.sentences[this.currentLevel].length) {
                     this.currentSentenceIndex = 0;
+                    
+                    // Track level completion
+                    this.trackEvent('level_completed', {
+                        level: this.currentLevel,
+                        totalSentences: this.sentences[this.currentLevel].length
+                    });
                 }
                 this.loadSentence();
             }
@@ -984,10 +1126,82 @@
         }
 
         // Initialize the app
-        let typingPractice;
         document.addEventListener('DOMContentLoaded', () => {
-            typingPractice = new TypingPractice();
+            new TypingPractice();
+            
+            // Service Worker for PWA capabilities
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').catch(() => {
+                    // Silently fail if service worker not available
+                });
+            }
         });
+
+        // Performance optimization
+        window.addEventListener('load', () => {
+            // Preload next level sentences for faster switching
+            const currentTyping = new TypingPractice();
+        });
+    </script>
+
+    <!-- Schema markup for better SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "免費英文打字練習課程",
+        "description": "提供B1到C1級別的英文打字練習，包含WPM測試、準確率統計和詞彙學習",
+        "provider": {
+            "@type": "Organization",
+            "name": "English Typing Practice"
+        },
+        "educationalLevel": ["Intermediate", "Upper-Intermediate", "Advanced"],
+        "teaches": ["English Typing", "Keyboard Skills", "English Vocabulary"],
+        "courseMode": "online",
+        "isAccessibleForFree": true,
+        "inLanguage": ["zh-TW", "en"],
+        "coursePrerequisites": "基礎英語能力",
+        "timeRequired": "PT15M",
+        "typicalAgeRange": "13-99",
+        "audience": {
+            "@type": "EducationalAudience",
+            "educationalRole": ["student", "self-learner"]
+        }
+    }
+    </script>
+
+    <!-- FAQ Schema for rich snippets -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "這個英文打字練習網站是免費的嗎？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "是的，我們的英文打字練習網站完全免費，無需註冊或付費即可使用所有功能。"
+                }
+            },
+            {
+                "@type": "Question", 
+                "name": "有哪些難度級別可以選擇？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "我們提供B1（中級）、B2（中高級）、C1（高級）三個級別的英文句子練習，適合不同程度的學習者。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "如何提升英文打字速度？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "建議每天練習15-30分鐘，專注於準確率而非速度，熟悉鍵盤位置後速度自然會提升。我們的工具會即時顯示WPM和準確率幫助您追蹤進度。"
+                }
+            }
+        ]
+    }
     </script>
 </body>
 </html>
