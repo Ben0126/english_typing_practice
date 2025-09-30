@@ -15,8 +15,8 @@
     <meta property="og:title" content="免費英文打字練習 | B1-C1級別線上英語打字訓練">
     <meta property="og:description" content="免費線上英文打字練習工具，提供B1-C1級別英語句子練習。提升英文打字速度與準確率，包含中文翻譯與重點單字解釋。">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://your-domain.com">
-    <meta property="og:image" content="https://your-domain.com/og-image.jpg">
+    <meta property="og:url" content="https://ben0126.github.io/english_typing_practice/">
+    <meta property="og:image" content="https://ben0126.github.io/english_typing_practice/og-image.jpg">
     <meta property="og:locale" content="zh_TW">
     <meta property="og:site_name" content="English Typing Practice">
     
@@ -24,10 +24,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="免費英文打字練習 | B1-C1級別線上英語打字訓練">
     <meta name="twitter:description" content="免費線上英文打字練習工具，提供B1-C1級別英語句子練習。提升英文打字速度與準確率。">
-    <meta name="twitter:image" content="https://your-domain.com/twitter-image.jpg">
+    <meta name="twitter:image" content="https://ben0126.github.io/english_typing_practice/twitter-image.jpg">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://your-domain.com">
+    <link rel="canonical" href="https://ben0126.github.io/english_typing_practice/">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -36,7 +36,7 @@
         "@type": "WebApplication",
         "name": "英文打字練習",
         "description": "免費線上英文打字練習工具，提供B1-C1級別英語句子練習",
-        "url": "https://your-domain.com",
+        "url": "https://ben0126.github.io/english_typing_practice/",
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "Any",
         "offers": {
@@ -69,15 +69,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary-gradient: linear-gradient(45deg, #4CAF50, #45a049);
+            --secondary-gradient: linear-gradient(45deg, #2196F3, #1976D2);
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --progress-gradient: linear-gradient(90deg, #4CAF50, #45a049);
         }
 
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--background-gradient);
             min-height: 100vh;
             padding: 20px;
             line-height: 1.6;
@@ -93,7 +94,7 @@
         }
 
         .header {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: var(--primary-gradient);
             padding: 30px;
             text-align: center;
             color: white;
@@ -244,7 +245,7 @@
         }
 
         .audio-btn {
-            background: linear-gradient(45deg, #2196F3, #1976D2);
+            background: var(--secondary-gradient);
             color: white;
             border: none;
             padding: 8px 16px;
@@ -269,7 +270,7 @@
         }
 
         .audio-btn.playing {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: var(--primary-gradient);
         }
 
         .speed-control {
@@ -328,7 +329,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #45a049);
+            background: var(--progress-gradient);
             width: 0%;
             transition: width 0.3s ease;
         }
@@ -385,7 +386,7 @@
         }
 
         .next-btn {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: var(--primary-gradient);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -658,6 +659,9 @@
                 this.completed = 0;
                 this.speechRate = 0.9;
                 this.currentSpeech = null;
+                
+                // Cache DOM elements for better performance
+                this.elements = {};
                 
                 this.sentences = {
                     B1: [
@@ -952,10 +956,32 @@
             }
 
             init() {
+                this.cacheElements();
                 this.bindEvents();
                 this.loadSentence();
                 this.initSpeech();
                 this.trackUserEngagement();
+            }
+
+            cacheElements() {
+                // Cache frequently used DOM elements
+                this.elements = {
+                    input: document.getElementById('typing-input'),
+                    nextBtn: document.getElementById('next-btn'),
+                    playSentenceBtn: document.getElementById('play-sentence'),
+                    playSlowBtn: document.getElementById('play-slow'),
+                    speedSlider: document.getElementById('speed-slider'),
+                    speedValue: document.getElementById('speed-value'),
+                    wpm: document.getElementById('wpm'),
+                    accuracy: document.getElementById('accuracy'),
+                    progress: document.getElementById('progress'),
+                    progressFill: document.getElementById('progress-fill'),
+                    feedback: document.getElementById('feedback'),
+                    targetSentence: document.getElementById('target-sentence'),
+                    translation: document.getElementById('translation'),
+                    vocabulary: document.getElementById('vocabulary'),
+                    vocabContent: document.getElementById('vocab-content')
+                };
             }
 
             initSpeech() {
@@ -1002,23 +1028,22 @@
                 });
 
                 // Typing input
-                const input = document.getElementById('typing-input');
-                input.addEventListener('input', (e) => {
+                this.elements.input.addEventListener('input', (e) => {
                     this.handleTyping(e.target.value);
                 });
 
-                input.addEventListener('keydown', (e) => {
+                this.elements.input.addEventListener('keydown', (e) => {
                     if (e.key === 'Tab') {
                         e.preventDefault();
                     }
                 });
 
-                input.addEventListener('focus', () => {
+                this.elements.input.addEventListener('focus', () => {
                     this.trackEvent('input_focused');
                 });
 
                 // Next button
-                document.getElementById('next-btn').addEventListener('click', () => {
+                this.elements.nextBtn.addEventListener('click', () => {
                     this.nextSentence();
                     this.trackEvent('next_sentence', { 
                         level: this.currentLevel, 
@@ -1027,24 +1052,24 @@
                 });
 
                 // Speech controls
-                document.getElementById('play-sentence').addEventListener('click', () => {
+                this.elements.playSentenceBtn.addEventListener('click', () => {
                     this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, this.speechRate);
                 });
 
-                document.getElementById('play-slow').addEventListener('click', () => {
+                this.elements.playSlowBtn.addEventListener('click', () => {
                     this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, 0.6);
                 });
 
-                document.getElementById('speed-slider').addEventListener('input', (e) => {
+                this.elements.speedSlider.addEventListener('input', (e) => {
                     this.speechRate = parseFloat(e.target.value);
-                    document.getElementById('speed-value').textContent = this.speechRate + 'x';
+                    this.elements.speedValue.textContent = this.speechRate + 'x';
                 });
 
                 // Keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
                     if (e.ctrlKey && e.key === 'Enter') {
                         e.preventDefault();
-                        if (!document.getElementById('next-btn').disabled) {
+                        if (!this.elements.nextBtn.disabled) {
                             this.nextSentence();
                         }
                     }
@@ -1078,8 +1103,8 @@
                 utterance.volume = 0.8;
 
                 // Visual feedback
-                const playBtn = document.getElementById('play-sentence');
-                const slowBtn = document.getElementById('play-slow');
+                const playBtn = this.elements.playSentenceBtn;
+                const slowBtn = this.elements.playSlowBtn;
                 
                 utterance.onstart = () => {
                     if (rate > 0.7) {
@@ -1117,10 +1142,10 @@
                 }
                 
                 const current = sentences[this.currentSentenceIndex];
-                const sentenceElement = document.getElementById('target-sentence');
-                const translationElement = document.getElementById('translation');
-                const vocabElement = document.getElementById('vocabulary');
-                const vocabContent = document.getElementById('vocab-content');
+                const sentenceElement = this.elements.targetSentence;
+                const translationElement = this.elements.translation;
+                const vocabElement = this.elements.vocabulary;
+                const vocabContent = this.elements.vocabContent;
 
                 // Display sentence with individual characters
                 sentenceElement.innerHTML = current.text
@@ -1142,11 +1167,10 @@
                 vocabElement.style.display = 'block';
 
                 // Reset input and states
-                const input = document.getElementById('typing-input');
-                input.value = '';
-                input.focus();
-                document.getElementById('next-btn').disabled = true;
-                document.getElementById('feedback').textContent = '';
+                this.elements.input.value = '';
+                this.elements.input.focus();
+                this.elements.nextBtn.disabled = true;
+                this.elements.feedback.textContent = '';
                 this.currentCharIndex = 0;
                 this.startTime = null;
                 this.errors = 0;
@@ -1219,19 +1243,19 @@
                     // Calculate net WPM (subtract errors)
                     const netWPM = Math.max(0, Math.round(((correctChars) / 5) / timeElapsed)) || 0;
                     
-                    document.getElementById('wpm').textContent = netWPM;
+                    this.elements.wpm.textContent = netWPM;
                 }
 
                 const accuracy = typedLength > 0 ? Math.round((correctChars / typedLength) * 100) : 100;
-                document.getElementById('accuracy').textContent = accuracy + '%';
+                this.elements.accuracy.textContent = accuracy + '%';
             }
 
             completeCurrentSentence() {
                 this.completed++;
-                document.getElementById('next-btn').disabled = false;
+                this.elements.nextBtn.disabled = false;
                 
-                const accuracy = parseInt(document.getElementById('accuracy').textContent);
-                const wpm = parseInt(document.getElementById('wpm').textContent);
+                const accuracy = parseInt(this.elements.accuracy.textContent);
+                const wpm = parseInt(this.elements.wpm.textContent);
                 
                 let feedback = '';
                 let feedbackClass = '';
@@ -1250,7 +1274,7 @@
                     feedbackClass = 'poor';
                 }
                 
-                const feedbackElement = document.getElementById('feedback');
+                const feedbackElement = this.elements.feedback;
                 feedbackElement.textContent = feedback;
                 feedbackElement.className = 'feedback ' + feedbackClass;
 
@@ -1283,10 +1307,10 @@
             updateProgress() {
                 const total = this.sentences[this.currentLevel].length;
                 const current = this.currentSentenceIndex + 1;
-                document.getElementById('progress').textContent = `${current}/${total}`;
+                this.elements.progress.textContent = `${current}/${total}`;
                 
                 const percentage = (current / total) * 100;
-                document.getElementById('progress-fill').style.width = percentage + '%';
+                this.elements.progressFill.style.width = percentage + '%';
             }
 
             updateCharacterDisplay() {
@@ -1314,8 +1338,11 @@
 
         // Performance optimization
         window.addEventListener('load', () => {
-            // Preload next level sentences for faster switching
-            const currentTyping = new TypingPractice();
+            // Preload critical resources for better performance
+            if (typingPractice && typingPractice.speechAvailable) {
+                // Preload speech synthesis voices
+                speechSynthesis.getVoices();
+            }
         });
     </script>
 
