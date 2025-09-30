@@ -236,6 +236,59 @@
             51%, 100% { opacity: 0.3; }
         }
 
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .audio-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .audio-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+        }
+
+        .audio-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .audio-btn.playing {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .speed-slider {
+            width: 80px;
+            height: 4px;
+            border-radius: 2px;
+            background: #ddd;
+            outline: none;
+            cursor: pointer;
+        }
+
         .translation {
             font-size: 14px;
             color: #666;
@@ -298,11 +351,37 @@
         .vocab-item {
             margin-bottom: 8px;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .vocab-word {
             font-weight: bold;
             color: #d84315;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+
+        .vocab-word:hover {
+            color: #2196F3;
+        }
+
+        .word-audio-btn {
+            background: #e3f2fd;
+            border: none;
+            border-radius: 12px;
+            padding: 2px 6px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #1976D2;
+            transition: all 0.2s;
+        }
+
+        .word-audio-btn:hover {
+            background: #2196F3;
+            color: white;
         }
 
         .next-btn {
@@ -486,6 +565,19 @@
         <main class="practice-area" role="main">
             <section class="sentence-display" aria-label="練習句子">
                 <div class="sentence" id="target-sentence" role="text" aria-label="目標句子"></div>
+                <div class="audio-controls">
+                    <button class="audio-btn" id="play-sentence">
+                        🔊 播放句子
+                    </button>
+                    <button class="audio-btn" id="play-slow">
+                        🐌 慢速播放
+                    </button>
+                    <div class="speed-control">
+                        <span>語速:</span>
+                        <input type="range" class="speed-slider" id="speed-slider" min="0.3" max="1.5" step="0.1" value="0.9">
+                        <span id="speed-value">0.9x</span>
+                    </div>
+                </div>
                 <div class="translation" id="translation" aria-label="中文翻譯"></div>
             </section>
 
@@ -564,6 +656,8 @@
                 this.errors = 0;
                 this.totalChars = 0;
                 this.completed = 0;
+                this.speechRate = 0.9;
+                this.currentSpeech = null;
                 
                 this.sentences = {
                     B1: [
@@ -860,7 +954,18 @@
             init() {
                 this.bindEvents();
                 this.loadSentence();
+                this.initSpeech();
                 this.trackUserEngagement();
+            }
+
+            initSpeech() {
+                // Check if speech synthesis is available
+                if ('speechSynthesis' in window) {
+                    this.speechAvailable = true;
+                } else {
+                    this.speechAvailable = false;
+                    console.log('Speech synthesis not available');
+                }
             }
 
             trackUserEngagement() {
@@ -921,6 +1026,20 @@
                     });
                 });
 
+                // Speech controls
+                document.getElementById('play-sentence').addEventListener('click', () => {
+                    this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, this.speechRate);
+                });
+
+                document.getElementById('play-slow').addEventListener('click', () => {
+                    this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, 0.6);
+                });
+
+                document.getElementById('speed-slider').addEventListener('input', (e) => {
+                    this.speechRate = parseFloat(e.target.value);
+                    document.getElementById('speed-value').textContent = this.speechRate + 'x';
+                });
+
                 // Keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
                     if (e.ctrlKey && e.key === 'Enter') {
@@ -943,6 +1062,54 @@
                 }
             }
 
+            speakText(text, rate = 0.9) {
+                if (!this.speechAvailable) {
+                    alert('抱歉，您的瀏覽器不支援語音功能');
+                    return;
+                }
+
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = rate;
+                utterance.pitch = 1;
+                utterance.volume = 0.8;
+
+                // Visual feedback
+                const playBtn = document.getElementById('play-sentence');
+                const slowBtn = document.getElementById('play-slow');
+                
+                utterance.onstart = () => {
+                    if (rate > 0.7) {
+                        playBtn.textContent = '⏸️ 播放中...';
+                        playBtn.classList.add('playing');
+                    } else {
+                        slowBtn.textContent = '⏸️ 慢速播放中...';
+                        slowBtn.classList.add('playing');
+                    }
+                };
+
+                utterance.onend = () => {
+                    playBtn.textContent = '🔊 播放句子';
+                    slowBtn.textContent = '🐌 慢速播放';
+                    playBtn.classList.remove('playing');
+                    slowBtn.classList.remove('playing');
+                };
+
+                utterance.onerror = () => {
+                    playBtn.textContent = '🔊 播放句子';
+                    slowBtn.textContent = '🐌 慢速播放';
+                    playBtn.classList.remove('playing');
+                    slowBtn.classList.remove('playing');
+                    console.log('Speech synthesis error');
+                };
+
+                this.currentSpeech = utterance;
+                speechSynthesis.speak(utterance);
+            }
+
             loadSentence() {
                 const sentences = this.sentences[this.currentLevel];
                 if (this.currentSentenceIndex >= sentences.length) {
@@ -963,11 +1130,13 @@
 
                 translationElement.textContent = current.translation;
 
-                // Show vocabulary
+                // Show vocabulary with audio buttons
                 vocabContent.innerHTML = current.vocabulary
                     .map(item => `
                         <div class="vocab-item">
-                            <span class="vocab-word">${item.word}</span>: ${item.meaning}
+                            <span class="vocab-word" onclick="typingPractice.speakText('${item.word}', 0.8)">${item.word}</span>
+                            <button class="word-audio-btn" onclick="typingPractice.speakText('${item.word}', 0.8)">🔊</button>
+                            : ${item.meaning}
                         </div>
                     `).join('');
                 vocabElement.style.display = 'block';
@@ -985,6 +1154,11 @@
 
                 this.updateProgress();
                 this.updateCharacterDisplay();
+                
+                // Stop any ongoing speech
+                if (this.currentSpeech) {
+                    speechSynthesis.cancel();
+                }
                 
                 // Update page title for SEO
                 document.title = `英文打字練習 ${this.currentLevel}級 - 句子 ${this.currentSentenceIndex + 1} | English Typing Practice`;
@@ -1126,8 +1300,9 @@
         }
 
         // Initialize the app
+        let typingPractice;
         document.addEventListener('DOMContentLoaded', () => {
-            new TypingPractice();
+            typingPractice = new TypingPractice();
             
             // Service Worker for PWA capabilities
             if ('serviceWorker' in navigator) {
