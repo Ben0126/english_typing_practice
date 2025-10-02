@@ -206,6 +206,35 @@
             transform: scale(1.05);
         }
 
+        .display-options {
+            display: flex;
+            gap: 8px;
+            margin-left: 20px;
+        }
+
+        .display-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            background: #f5f5f5;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .display-btn:hover {
+            background: #e0e0e0;
+            border-color: #bbb;
+        }
+
+        .display-btn.active {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
         .stats {
             display: flex;
             gap: 20px;
@@ -617,6 +646,17 @@
                 <button class="difficulty-btn" data-level="B1" aria-label="選擇B1中級難度">B1 中級</button>
                 <button class="difficulty-btn active" data-level="B2" aria-label="選擇B2中高級難度">B2 中高級</button>
                 <button class="difficulty-btn" data-level="C1" aria-label="選擇C1高級難度">C1 高級</button>
+                
+                <div class="speed-control" role="group" aria-label="語速控制">
+                    <label for="speed-slider">語速:</label>
+                    <input type="range" class="speed-slider" id="speed-slider" min="0.3" max="1.5" step="0.1" value="1.0" aria-describedby="speed-value">
+                    <span id="speed-value" aria-live="polite">1.0x</span>
+                </div>
+                
+                <div class="display-options" role="group" aria-label="顯示選項">
+                    <button class="display-btn" id="hide-chinese" aria-label="隱藏中文翻譯">隱藏中文</button>
+                    <button class="display-btn" id="hide-english" aria-label="隱藏英文句子">隱藏英文</button>
+                </div>
             </div>
             
             <div class="filters">
@@ -664,11 +704,6 @@
                         🐌 慢速播放
                     </button>
                     <div id="play-slow-desc" class="sr-only">點擊以較慢語速播放當前英文句子</div>
-                    <div class="speed-control" role="group" aria-label="語速控制">
-                        <label for="speed-slider">語速:</label>
-                        <input type="range" class="speed-slider" id="speed-slider" min="0.3" max="1.5" step="0.1" value="0.9" aria-describedby="speed-value">
-                        <span id="speed-value" aria-live="polite">0.9x</span>
-                    </div>
                 </div>
                 <div class="translation" id="translation" aria-label="中文翻譯" aria-live="polite"></div>
             </section>
@@ -719,11 +754,13 @@
                 this.errors = 0;
                 this.totalChars = 0;
                 this.completed = 0;
-                this.speechRate = 0.9;
+                this.speechRate = 1.0;
                 this.currentSpeech = null;
                 this.filteredSentences = [];
                 this.levelFilter = 'B2';
                 this.contextFilter = 'all';
+                this.hideChinese = false;
+                this.hideEnglish = false;
                 
                 // Cache DOM elements for better performance
                 this.elements = {};
@@ -1218,6 +1255,8 @@
                     playSlowBtn: document.getElementById('play-slow'),
                     speedSlider: document.getElementById('speed-slider'),
                     speedValue: document.getElementById('speed-value'),
+                    hideChineseBtn: document.getElementById('hide-chinese'),
+                    hideEnglishBtn: document.getElementById('hide-english'),
                     wpm: document.getElementById('wpm'),
                     accuracy: document.getElementById('accuracy'),
                     progress: document.getElementById('progress'),
@@ -1341,6 +1380,21 @@
                     this.applyFilters();
                     this.loadSentence();
                     this.trackEvent('context_filter_changed', { filter: this.contextFilter });
+                });
+
+                // Display options
+                this.elements.hideChineseBtn.addEventListener('click', (e) => {
+                    this.hideChinese = !this.hideChinese;
+                    e.target.classList.toggle('active', this.hideChinese);
+                    this.updateDisplay();
+                    this.trackEvent('hide_chinese_toggled', { hidden: this.hideChinese });
+                });
+
+                this.elements.hideEnglishBtn.addEventListener('click', (e) => {
+                    this.hideEnglish = !this.hideEnglish;
+                    e.target.classList.toggle('active', this.hideEnglish);
+                    this.updateDisplay();
+                    this.trackEvent('hide_english_toggled', { hidden: this.hideEnglish });
                 });
 
                 // Typing input with debounce
@@ -1600,6 +1654,7 @@
 
                 this.updateProgress();
                 this.updateCharacterDisplay();
+                this.updateDisplay();
                 
                 // Stop any ongoing speech
                 if (this.currentSpeech) {
@@ -1748,6 +1803,22 @@
                 
                 const percentage = total > 0 ? (current / total) * 100 : 0;
                 this.elements.progressFill.style.width = percentage + '%';
+            }
+
+            updateDisplay() {
+                // 更新中文翻譯顯示
+                if (this.hideChinese) {
+                    this.elements.translation.style.display = 'none';
+                } else {
+                    this.elements.translation.style.display = 'block';
+                }
+
+                // 更新英文句子顯示
+                if (this.hideEnglish) {
+                    this.elements.targetSentence.style.display = 'none';
+                } else {
+                    this.elements.targetSentence.style.display = 'block';
+                }
             }
 
             updateCharacterDisplay() {
