@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Meta Tags -->
-    <title>免費英文打字練習 | B1-C1級別線上英語打字訓練 | English Typing Practice</title>
-    <meta name="description" content="免費線上英文打字練習工具，提供B1-C1級別英語句子練習。提升英文打字速度與準確率，包含中文翻譯與重點單字解釋。適合英語學習者、學生、上班族使用。">
-    <meta name="keywords" content="英文打字, 英語打字練習, 線上打字, 免費打字練習, English typing, 打字速度測試, WPM測試, 英語學習, B1 B2 C1, 英文練習">
+    <title>免費英文打字練習 | A2-C1級別線上英語打字訓練 | English Typing Practice</title>
+    <meta name="description" content="免費線上英文打字練習工具，提供A2-C1級別英語句子練習。提升英文打字速度與準確率，包含中文翻譯與重點單字解釋。適合英語學習者、學生、上班族使用。">
+    <meta name="keywords" content="英文打字, 英語打字練習, 線上打字, 免費打字練習, English typing, 打字速度測試, WPM測試, 英語學習, A2 B1 B2 C1, 英文練習">
     <meta name="author" content="English Typing Practice">
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="免費英文打字練習 | B1-C1級別線上英語打字訓練">
-    <meta property="og:description" content="免費線上英文打字練習工具，提供B1-C1級別英語句子練習。提升英文打字速度與準確率，包含中文翻譯與重點單字解釋。">
+    <meta property="og:title" content="免費英文打字練習 | A2-C1級別線上英語打字訓練">
+    <meta property="og:description" content="免費線上英文打字練習工具，提供A2-C1級別英語句子練習。提升英文打字速度與準確率，包含中文翻譯與重點單字解釋。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ben0126.github.io/english_typing_practice/">
     <meta property="og:image" content="https://ben0126.github.io/english_typing_practice/og-image.jpg">
@@ -22,8 +22,8 @@
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="免費英文打字練習 | B1-C1級別線上英語打字訓練">
-    <meta name="twitter:description" content="免費線上英文打字練習工具，提供B1-C1級別英語句子練習。提升英文打字速度與準確率。">
+    <meta name="twitter:title" content="免費英文打字練習 | A2-C1級別線上英語打字訓練">
+    <meta name="twitter:description" content="免費線上英文打字練習工具，提供A2-C1級別英語句子練習。提升英文打字速度與準確率。">
     <meta name="twitter:image" content="https://ben0126.github.io/english_typing_practice/twitter-image.jpg">
     
     <!-- Canonical URL -->
@@ -154,6 +154,32 @@
             gap: 15px;
             align-items: center;
             flex-wrap: wrap;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filters select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            min-width: 120px;
+        }
+
+        .filters select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .filters select:hover {
+            border-color: #4CAF50;
         }
 
         .difficulty-selector {
@@ -580,27 +606,32 @@
     <div class="container">
         <header class="header">
             <h1>🎯 免費英文打字練習</h1>
-            <p>English Typing Practice | B1-C1 Level | 提升英語打字速度與準確率</p>
-            <div class="subtitle">線上免費英文打字訓練工具，適合學生、上班族、英語學習者</div>
-            <div class="benefits">
-                <ul>
-                    <li>完全免費使用</li>
-                    <li>支援B1-C1三個級別</li>
-                    <li>即時WPM速度測試</li>
-                    <li>準確率統計分析</li>
-                    <li>中文翻譯對照</li>
-                    <li>重點單字解釋</li>
-                </ul>
-            </div>
+            <p>English Typing Practice | A2-C1 Level | 提升英語打字速度與準確率</p>
         </header>
 
         <nav class="controls" role="navigation" aria-label="練習設定">
             <div class="difficulty-selector">
                 <span>選擇難度:</span>
+                <button class="difficulty-btn" data-level="all" aria-label="選擇所有難度">所有難度</button>
+                <button class="difficulty-btn" data-level="A2" aria-label="選擇A2初中級難度">A2 初中級</button>
                 <button class="difficulty-btn" data-level="B1" aria-label="選擇B1中級難度">B1 中級</button>
                 <button class="difficulty-btn active" data-level="B2" aria-label="選擇B2中高級難度">B2 中高級</button>
                 <button class="difficulty-btn" data-level="C1" aria-label="選擇C1高級難度">C1 高級</button>
             </div>
+            
+            <div class="filters">
+                <select id="contextFilter" aria-label="選擇情境過濾">
+                    <option value="all">所有情境</option>
+                    <option value="日常對話">日常對話</option>
+                    <option value="學術">學術</option>
+                    <option value="商務">商務</option>
+                    <option value="旅遊">旅遊</option>
+                    <option value="科技">科技</option>
+                    <option value="文法">文法練習</option>
+                    <option value="片語">片語練習</option>
+                </select>
+            </div>
+            
             <div class="stats" role="region" aria-label="打字統計">
                 <div class="stat-item">
                     <span class="stat-value" id="wpm" aria-label="每分鐘字數">0</span>
@@ -613,6 +644,10 @@
                 <div class="stat-item">
                     <span class="stat-value" id="progress" aria-label="練習進度">0/10</span>
                     <span>進度</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="count" aria-label="顯示句子數量">100</span>
+                    <span>句子</span>
                 </div>
             </div>
         </nav>
@@ -667,47 +702,10 @@
             </section>
         </main>
 
-        <section class="features" id="features">
-            <h2>為什麼選擇我們的英文打字練習？</h2>
-            <div class="feature-grid">
-                <article class="feature-card">
-                    <h3>🎯 多級別練習</h3>
-                    <p>提供B1、B2、C1三個級別的英文句子，從中級到高級循序漸進，適合不同程度的學習者。</p>
-                </article>
-                <article class="feature-card">
-                    <h3>📊 即時統計</h3>
-                    <p>即時顯示WPM（每分鐘字數）和準確率，幫助您追蹤打字速度和準確度的進步。</p>
-                </article>
-                <article class="feature-card">
-                    <h3>🌏 雙語支援</h3>
-                    <p>每個英文句子都配有中文翻譯，幫助理解句意，同時學習英語和提升打字技能。</p>
-                </article>
-                <article class="feature-card">
-                    <h3>📚 單字學習</h3>
-                    <p>重點單字標註和解釋，邊練習打字邊擴充英語詞彙量，一舉兩得。</p>
-                </article>
-                <article class="feature-card">
-                    <h3>💻 跨平台支援</h3>
-                    <p>支援電腦、平板、手機等各種設備，隨時隨地都能進行英文打字練習。</p>
-                </article>
-                <article class="feature-card">
-                    <h3>🆓 完全免費</h3>
-                    <p>無需註冊或付費，完全免費使用所有功能，讓每個人都能輕鬆提升英文打字能力。</p>
-                </article>
-                <article class="feature-card">
-                    <h3>⌨️ 鍵盤快捷鍵</h3>
-                    <p>支援豐富的鍵盤快捷鍵，提升操作效率：Ctrl+Enter 下一句，Ctrl+P 播放，Alt+1/2/3 切換級別。</p>
-                </article>
-                <article class="feature-card">
-                    <h3>♿ 無障礙設計</h3>
-                    <p>完整的 ARIA 標籤支援，高對比度模式，螢幕閱讀器友善，讓每個人都能輕鬆使用。</p>
-                </article>
-            </div>
-        </section>
 
         <footer class="footer">
             <p>&copy; 2025 English Typing Practice. 英文打字練習工具 - 免費線上英語打字訓練</p>
-            <p>適合學生、上班族、英語學習者使用 | <a href="#features">功能介紹</a> | <a href="mailto:contact@example.com">聯絡我們</a></p>
+            <p>適合學生、上班族、英語學習者使用 | <a href="mailto:contact@example.com">聯絡我們</a></p>
         </footer>
     </div>
 
@@ -723,6 +721,9 @@
                 this.completed = 0;
                 this.speechRate = 0.9;
                 this.currentSpeech = null;
+                this.filteredSentences = [];
+                this.levelFilter = 'B2';
+                this.contextFilter = 'all';
                 
                 // Cache DOM elements for better performance
                 this.elements = {};
@@ -749,7 +750,61 @@
                 };
                 
                 this.sentences = {
+                    A2: [
+                        // A2 級別 (10句)
+                        { level: 'A2', context: '日常對話', text: 'I usually wake up at seven in the morning.', keywords: ['usually', 'wake up'], translation: '我通常早上七點起床。', vocabulary: [{ word: 'usually', meaning: '通常' }, { word: 'wake up', meaning: '起床' }] },
+                        { level: 'A2', context: '旅遊', text: 'Could you recommend a good restaurant nearby?', keywords: ['recommend', 'restaurant', 'nearby'], translation: '你能推薦附近的好餐廳嗎？', vocabulary: [{ word: 'recommend', meaning: '推薦' }, { word: 'restaurant', meaning: '餐廳' }, { word: 'nearby', meaning: '附近' }] },
+                        { level: 'A2', context: '日常對話', text: 'She is learning to play the guitar.', keywords: ['learning', 'play', 'guitar'], translation: '她正在學習彈吉他。', vocabulary: [{ word: 'learning', meaning: '學習' }, { word: 'play', meaning: '彈奏' }, { word: 'guitar', meaning: '吉他' }] },
+                        { level: 'A2', context: '商務', text: 'I need to finish this report by Friday.', keywords: ['need', 'finish', 'report'], translation: '我需要在週五前完成這份報告。', vocabulary: [{ word: 'need', meaning: '需要' }, { word: 'finish', meaning: '完成' }, { word: 'report', meaning: '報告' }] },
+                        { level: 'A2', context: '日常對話', text: 'We went shopping last weekend.', keywords: ['went', 'shopping', 'weekend'], translation: '我們上週末去購物了。', vocabulary: [{ word: 'went', meaning: '去' }, { word: 'shopping', meaning: '購物' }, { word: 'weekend', meaning: '週末' }] },
+                        { level: 'A2', context: '旅遊', text: 'The hotel room was clean and comfortable.', keywords: ['hotel', 'clean', 'comfortable'], translation: '酒店房間很乾淨舒適。', vocabulary: [{ word: 'hotel', meaning: '酒店' }, { word: 'clean', meaning: '乾淨' }, { word: 'comfortable', meaning: '舒適' }] },
+                        { level: 'A2', context: '日常對話', text: 'My brother works at a bank.', keywords: ['brother', 'works', 'bank'], translation: '我哥哥在銀行工作。', vocabulary: [{ word: 'brother', meaning: '哥哥' }, { word: 'works', meaning: '工作' }, { word: 'bank', meaning: '銀行' }] },
+                        { level: 'A2', context: '日常對話', text: 'They are planning a trip to Japan.', keywords: ['planning', 'trip'], translation: '他們正在計劃去日本旅行。', vocabulary: [{ word: 'planning', meaning: '計劃' }, { word: 'trip', meaning: '旅行' }] },
+                        { level: 'A2', context: '日常對話', text: 'I enjoy reading books in my free time.', keywords: ['enjoy', 'reading', 'free time'], translation: '我喜歡在空閒時間讀書。', vocabulary: [{ word: 'enjoy', meaning: '喜歡' }, { word: 'reading', meaning: '閱讀' }, { word: 'free time', meaning: '空閒時間' }] },
+                        { level: 'A2', context: '旅遊', text: 'What time does the train leave?', keywords: ['what time', 'train', 'leave'], translation: '火車什麼時候開？', vocabulary: [{ word: 'what time', meaning: '什麼時候' }, { word: 'train', meaning: '火車' }, { word: 'leave', meaning: '離開' }] },
+                        
+                        // 文法練習 - A2 級別 (5句)
+                        { level: 'A2', context: '文法', text: 'I have been studying English for three years.', keywords: ['present perfect continuous', 'for'], translation: '我已經學英語三年了。', vocabulary: [{ word: 'present perfect continuous', meaning: '現在完成進行式' }, { word: 'for', meaning: '持續時間' }] },
+                        { level: 'A2', context: '文法', text: 'She is taller than her brother.', keywords: ['comparative', 'than'], translation: '她比她哥哥高。', vocabulary: [{ word: 'comparative', meaning: '比較級' }, { word: 'than', meaning: '比' }] },
+                        { level: 'A2', context: '文法', text: 'If it rains tomorrow, we will stay home.', keywords: ['first conditional', 'if', 'will'], translation: '如果明天下雨，我們就待在家裡。', vocabulary: [{ word: 'first conditional', meaning: '第一條件句' }, { word: 'if', meaning: '如果' }, { word: 'will', meaning: '將會' }] },
+                        { level: 'A2', context: '文法', text: 'The book was written by a famous author.', keywords: ['passive voice', 'was written', 'by'], translation: '這本書是由一位著名作家寫的。', vocabulary: [{ word: 'passive voice', meaning: '被動語態' }, { word: 'was written', meaning: '被寫' }, { word: 'by', meaning: '由' }] },
+                        { level: 'A2', context: '文法', text: 'I am going to visit my grandparents next week.', keywords: ['be going to', 'future plan'], translation: '我下週要去看我的祖父母。', vocabulary: [{ word: 'be going to', meaning: '將要' }, { word: 'future plan', meaning: '未來計劃' }] },
+                        
+                        // 片語練習 - A2 級別 (5句)
+                        { level: 'A2', context: '片語', text: 'Can you look after my dog while I am away?', keywords: ['look after', 'take care of'], translation: '我不在的時候你能照顧我的狗嗎？', vocabulary: [{ word: 'look after', meaning: '照顧' }, { word: 'take care of', meaning: '照顧' }] },
+                        { level: 'A2', context: '片語', text: 'I need to find out what time the train leaves.', keywords: ['find out', 'discover'], translation: '我需要查清楚火車什麼時候開。', vocabulary: [{ word: 'find out', meaning: '查清楚' }, { word: 'discover', meaning: '發現' }] },
+                        { level: 'A2', context: '片語', text: 'Please turn off the lights before you leave.', keywords: ['turn off', 'switch off'], translation: '離開前請關燈。', vocabulary: [{ word: 'turn off', meaning: '關掉' }, { word: 'switch off', meaning: '關掉' }] },
+                        { level: 'A2', context: '片語', text: 'She came across an old friend at the supermarket.', keywords: ['come across', 'meet by chance'], translation: '她在超市偶然遇到了一位老朋友。', vocabulary: [{ word: 'come across', meaning: '偶然遇到' }, { word: 'meet by chance', meaning: '偶然遇到' }] },
+                        { level: 'A2', context: '片語', text: 'We need to put off the meeting until next week.', keywords: ['put off', 'postpone'], translation: '我們需要把會議推遲到下週。', vocabulary: [{ word: 'put off', meaning: '推遲' }, { word: 'postpone', meaning: '推遲' }] }
+                    ],
                     B1: [
+                        // B1 級別 (10句)
+                        { level: 'B1', context: '學術', text: 'Environmental protection has become a global priority.', keywords: ['environmental', 'protection', 'global', 'priority'], translation: '環境保護已成為全球優先事項。', vocabulary: [{ word: 'environmental', meaning: '環境的' }, { word: 'protection', meaning: '保護' }, { word: 'global', meaning: '全球的' }, { word: 'priority', meaning: '優先事項' }] },
+                        { level: 'B1', context: '商務', text: 'Our company is expanding into new markets this year.', keywords: ['company', 'expanding', 'markets'], translation: '我們公司今年正在擴展到新市場。', vocabulary: [{ word: 'company', meaning: '公司' }, { word: 'expanding', meaning: '擴展' }, { word: 'markets', meaning: '市場' }] },
+                        { level: 'B1', context: '日常對話', text: 'Although it was raining, we decided to go hiking.', keywords: ['although', 'decided', 'hiking'], translation: '雖然下雨了，我們還是決定去遠足。', vocabulary: [{ word: 'although', meaning: '雖然' }, { word: 'decided', meaning: '決定' }, { word: 'hiking', meaning: '遠足' }] },
+                        { level: 'B1', context: '科技', text: 'Social media has changed the way we communicate.', keywords: ['social media', 'communicate'], translation: '社交媒體改變了我們的溝通方式。', vocabulary: [{ word: 'social media', meaning: '社交媒體' }, { word: 'communicate', meaning: '溝通' }] },
+                        { level: 'B1', context: '學術', text: 'The research suggests that exercise improves mental health.', keywords: ['research', 'suggests', 'exercise', 'mental health'], translation: '研究顯示運動能改善心理健康。', vocabulary: [{ word: 'research', meaning: '研究' }, { word: 'suggests', meaning: '顯示' }, { word: 'exercise', meaning: '運動' }, { word: 'mental health', meaning: '心理健康' }] },
+                        { level: 'B1', context: '商務', text: 'We should schedule a meeting to discuss the project.', keywords: ['schedule', 'meeting', 'discuss'], translation: '我們應該安排一個會議來討論這個項目。', vocabulary: [{ word: 'schedule', meaning: '安排' }, { word: 'meeting', meaning: '會議' }, { word: 'discuss', meaning: '討論' }] },
+                        { level: 'B1', context: '日常對話', text: 'If I had more time, I would learn a new language.', keywords: ['if', 'had', 'would learn'], translation: '如果我有更多時間，我會學一門新語言。', vocabulary: [{ word: 'if', meaning: '如果' }, { word: 'had', meaning: '有' }, { word: 'would learn', meaning: '會學習' }] },
+                        { level: 'B1', context: '旅遊', text: 'Traveling abroad broadens your perspective on life.', keywords: ['traveling', 'broadens', 'perspective'], translation: '出國旅行能拓寬你對生活的視角。', vocabulary: [{ word: 'traveling', meaning: '旅行' }, { word: 'broadens', meaning: '拓寬' }, { word: 'perspective', meaning: '視角' }] },
+                        { level: 'B1', context: '學術', text: 'Students are encouraged to participate in class discussions.', keywords: ['encouraged', 'participate', 'discussions'], translation: '鼓勵學生參與課堂討論。', vocabulary: [{ word: 'encouraged', meaning: '鼓勵' }, { word: 'participate', meaning: '參與' }, { word: 'discussions', meaning: '討論' }] },
+                        { level: 'B1', context: '日常對話', text: 'I am considering moving to a bigger apartment.', keywords: ['considering', 'moving', 'apartment'], translation: '我正在考慮搬到更大的公寓。', vocabulary: [{ word: 'considering', meaning: '考慮' }, { word: 'moving', meaning: '搬家' }, { word: 'apartment', meaning: '公寓' }] },
+                        
+                        // 文法練習 - B1 級別 (5句)
+                        { level: 'B1', context: '文法', text: 'I wish I could speak French fluently.', keywords: ['wish', 'could', 'unreal present'], translation: '我希望我能流利地說法語。', vocabulary: [{ word: 'wish', meaning: '希望' }, { word: 'could', meaning: '能夠' }, { word: 'unreal present', meaning: '非真實現在' }] },
+                        { level: 'B1', context: '文法', text: 'Having finished my homework, I went out to play.', keywords: ['perfect participle', 'having finished'], translation: '完成作業後，我出去玩了。', vocabulary: [{ word: 'perfect participle', meaning: '完成分詞' }, { word: 'having finished', meaning: '完成後' }] },
+                        { level: 'B1', context: '文法', text: 'She made me feel comfortable during the interview.', keywords: ['causative', 'made', 'feel'], translation: '她在面試期間讓我感到舒適。', vocabulary: [{ word: 'causative', meaning: '使役動詞' }, { word: 'made', meaning: '使' }, { word: 'feel', meaning: '感到' }] },
+                        { level: 'B1', context: '文法', text: 'I would have passed the exam if I had studied harder.', keywords: ['third conditional', 'would have', 'had studied'], translation: '如果我更努力學習，我就會通過考試。', vocabulary: [{ word: 'third conditional', meaning: '第三條件句' }, { word: 'would have', meaning: '會已經' }, { word: 'had studied', meaning: '已經學習' }] },
+                        { level: 'B1', context: '文法', text: 'The manager suggested that we postpone the meeting.', keywords: ['subjunctive', 'suggested', 'postpone'], translation: '經理建議我們推遲會議。', vocabulary: [{ word: 'subjunctive', meaning: '虛擬語氣' }, { word: 'suggested', meaning: '建議' }, { word: 'postpone', meaning: '推遲' }] },
+                        
+                        // 片語練習 - B1 級別 (5句)
+                        { level: 'B1', context: '片語', text: 'The company is looking into new investment opportunities.', keywords: ['look into', 'investigate'], translation: '公司正在調查新的投資機會。', vocabulary: [{ word: 'look into', meaning: '調查' }, { word: 'investigate', meaning: '調查' }] },
+                        { level: 'B1', context: '片語', text: 'I cannot put up with this noise any longer.', keywords: ['put up with', 'tolerate'], translation: '我再也無法忍受這種噪音了。', vocabulary: [{ word: 'put up with', meaning: '忍受' }, { word: 'tolerate', meaning: '容忍' }] },
+                        { level: 'B1', context: '片語', text: 'The project fell through due to lack of funding.', keywords: ['fall through', 'fail'], translation: '由於缺乏資金，這個項目失敗了。', vocabulary: [{ word: 'fall through', meaning: '失敗' }, { word: 'fail', meaning: '失敗' }] },
+                        { level: 'B1', context: '片語', text: 'She gets along well with her colleagues.', keywords: ['get along with', 'have good relationship'], translation: '她與同事相處得很好。', vocabulary: [{ word: 'get along with', meaning: '相處' }, { word: 'have good relationship', meaning: '有好關係' }] },
+                        { level: 'B1', context: '片語', text: 'We ran out of time before finishing the presentation.', keywords: ['run out of', 'exhaust'], translation: '我們在完成簡報前時間用完了。', vocabulary: [{ word: 'run out of', meaning: '用完' }, { word: 'exhaust', meaning: '耗盡' }] },
+                        
+                        // 原有B1句子
                         {
                             text: "The weather forecast suggests that tomorrow will be significantly warmer than today.",
                             translation: "天氣預報顯示明天會比今天暖和得多。",
@@ -841,6 +896,38 @@
                         }
                     ],
                     B2: [
+                        // B2 級別 (15句)
+                        { level: 'B2', context: '學術', text: 'The study demonstrates a significant correlation between diet and longevity.', keywords: ['demonstrates', 'correlation', 'longevity'], translation: '這項研究顯示飲食與長壽之間存在顯著相關性。', vocabulary: [{ word: 'demonstrates', meaning: '顯示' }, { word: 'correlation', meaning: '相關性' }, { word: 'longevity', meaning: '長壽' }] },
+                        { level: 'B2', context: '商務', text: 'Implementing effective strategies requires thorough market analysis.', keywords: ['implementing', 'strategies', 'thorough', 'analysis'], translation: '實施有效策略需要徹底的市場分析。', vocabulary: [{ word: 'implementing', meaning: '實施' }, { word: 'strategies', meaning: '策略' }, { word: 'thorough', meaning: '徹底的' }, { word: 'analysis', meaning: '分析' }] },
+                        { level: 'B2', context: '科技', text: 'Artificial intelligence is revolutionizing various industries worldwide.', keywords: ['artificial intelligence', 'revolutionizing', 'industries'], translation: '人工智能正在徹底改變世界各地的各種行業。', vocabulary: [{ word: 'artificial intelligence', meaning: '人工智能' }, { word: 'revolutionizing', meaning: '徹底改變' }, { word: 'industries', meaning: '行業' }] },
+                        { level: 'B2', context: '學術', text: 'Critics argue that the methodology used was fundamentally flawed.', keywords: ['critics', 'methodology', 'fundamentally', 'flawed'], translation: '批評者認為所使用的方法論存在根本性缺陷。', vocabulary: [{ word: 'critics', meaning: '批評者' }, { word: 'methodology', meaning: '方法論' }, { word: 'fundamentally', meaning: '根本地' }, { word: 'flawed', meaning: '有缺陷的' }] },
+                        { level: 'B2', context: '商務', text: 'The merger will potentially enhance our competitive advantage.', keywords: ['merger', 'potentially', 'enhance', 'competitive advantage'], translation: '這次合併可能會增強我們的競爭優勢。', vocabulary: [{ word: 'merger', meaning: '合併' }, { word: 'potentially', meaning: '可能' }, { word: 'enhance', meaning: '增強' }, { word: 'competitive advantage', meaning: '競爭優勢' }] },
+                        { level: 'B2', context: '日常對話', text: 'Despite numerous setbacks, she persevered and achieved her goals.', keywords: ['despite', 'setbacks', 'persevered', 'achieved'], translation: '儘管遇到許多挫折，她堅持不懈並實現了目標。', vocabulary: [{ word: 'despite', meaning: '儘管' }, { word: 'setbacks', meaning: '挫折' }, { word: 'persevered', meaning: '堅持不懈' }, { word: 'achieved', meaning: '實現' }] },
+                        { level: 'B2', context: '學術', text: 'The findings contradict previous assumptions about climate change.', keywords: ['findings', 'contradict', 'assumptions'], translation: '這些發現與之前關於氣候變化的假設相矛盾。', vocabulary: [{ word: 'findings', meaning: '發現' }, { word: 'contradict', meaning: '矛盾' }, { word: 'assumptions', meaning: '假設' }] },
+                        { level: 'B2', context: '科技', text: 'Cybersecurity has become increasingly crucial in the digital age.', keywords: ['cybersecurity', 'increasingly', 'crucial', 'digital age'], translation: '在數位時代，網路安全變得越來越重要。', vocabulary: [{ word: 'cybersecurity', meaning: '網路安全' }, { word: 'increasingly', meaning: '越來越' }, { word: 'crucial', meaning: '重要的' }, { word: 'digital age', meaning: '數位時代' }] },
+                        { level: 'B2', context: '商務', text: 'We must allocate resources more efficiently to maximize profits.', keywords: ['allocate', 'efficiently', 'maximize', 'profits'], translation: '我們必須更有效地分配資源以最大化利潤。', vocabulary: [{ word: 'allocate', meaning: '分配' }, { word: 'efficiently', meaning: '有效地' }, { word: 'maximize', meaning: '最大化' }, { word: 'profits', meaning: '利潤' }] },
+                        { level: 'B2', context: '日常對話', text: 'Her dedication to excellence is truly admirable and inspiring.', keywords: ['dedication', 'excellence', 'admirable', 'inspiring'], translation: '她對卓越的奉獻精神真正令人欽佩和鼓舞人心。', vocabulary: [{ word: 'dedication', meaning: '奉獻' }, { word: 'excellence', meaning: '卓越' }, { word: 'admirable', meaning: '令人欽佩的' }, { word: 'inspiring', meaning: '鼓舞人心的' }] },
+                        { level: 'B2', context: '學術', text: 'The hypothesis provides compelling evidence for evolutionary adaptation.', keywords: ['hypothesis', 'compelling', 'evolutionary', 'adaptation'], translation: '這個假說為進化適應提供了令人信服的證據。', vocabulary: [{ word: 'hypothesis', meaning: '假說' }, { word: 'compelling', meaning: '令人信服的' }, { word: 'evolutionary', meaning: '進化的' }, { word: 'adaptation', meaning: '適應' }] },
+                        { level: 'B2', context: '商務', text: 'Sustainable practices are essential for long-term corporate success.', keywords: ['sustainable', 'practices', 'essential', 'corporate'], translation: '可持續實踐對長期企業成功至關重要。', vocabulary: [{ word: 'sustainable', meaning: '可持續的' }, { word: 'practices', meaning: '實踐' }, { word: 'essential', meaning: '至關重要的' }, { word: 'corporate', meaning: '企業的' }] },
+                        { level: 'B2', context: '科技', text: 'Data privacy concerns have prompted stricter regulations globally.', keywords: ['data privacy', 'concerns', 'prompted', 'regulations'], translation: '數據隱私擔憂促使全球制定更嚴格的法規。', vocabulary: [{ word: 'data privacy', meaning: '數據隱私' }, { word: 'concerns', meaning: '擔憂' }, { word: 'prompted', meaning: '促使' }, { word: 'regulations', meaning: '法規' }] },
+                        { level: 'B2', context: '學術', text: 'The phenomenon exhibits characteristics consistent with previous research.', keywords: ['phenomenon', 'exhibits', 'characteristics', 'consistent'], translation: '這個現象表現出與先前研究一致的特徵。', vocabulary: [{ word: 'phenomenon', meaning: '現象' }, { word: 'exhibits', meaning: '表現' }, { word: 'characteristics', meaning: '特徵' }, { word: 'consistent', meaning: '一致的' }] },
+                        { level: 'B2', context: '商務', text: 'Transparent communication fosters trust among team members.', keywords: ['transparent', 'communication', 'fosters', 'trust'], translation: '透明的溝通促進團隊成員之間的信任。', vocabulary: [{ word: 'transparent', meaning: '透明的' }, { word: 'communication', meaning: '溝通' }, { word: 'fosters', meaning: '促進' }, { word: 'trust', meaning: '信任' }] },
+                        
+                        // 文法練習 - B2 級別 (5句)
+                        { level: 'B2', context: '文法', text: 'No sooner had I arrived than the meeting started.', keywords: ['inversion', 'no sooner', 'than'], translation: '我一到會議就開始了。', vocabulary: [{ word: 'inversion', meaning: '倒裝' }, { word: 'no sooner', meaning: '一...就' }, { word: 'than', meaning: '比' }] },
+                        { level: 'B2', context: '文法', text: 'Were I in your position, I would accept the offer.', keywords: ['inversion', 'were', 'conditional'], translation: '如果我是你，我會接受這個提議。', vocabulary: [{ word: 'inversion', meaning: '倒裝' }, { word: 'were', meaning: '是' }, { word: 'conditional', meaning: '條件句' }] },
+                        { level: 'B2', context: '文法', text: 'The committee, which had been deliberating for hours, finally reached a decision.', keywords: ['non-defining relative clause', 'which'], translation: '委員會經過數小時的審議，最終做出了決定。', vocabulary: [{ word: 'non-defining relative clause', meaning: '非限定性關係子句' }, { word: 'which', meaning: '哪個' }] },
+                        { level: 'B2', context: '文法', text: 'Not only did she complete the project, but she also exceeded expectations.', keywords: ['inversion', 'not only', 'but also'], translation: '她不僅完成了項目，還超出了預期。', vocabulary: [{ word: 'inversion', meaning: '倒裝' }, { word: 'not only', meaning: '不僅' }, { word: 'but also', meaning: '而且' }] },
+                        { level: 'B2', context: '文法', text: 'It is imperative that students submit their assignments on time.', keywords: ['subjunctive', 'imperative', 'submit'], translation: '學生必須按時提交作業。', vocabulary: [{ word: 'subjunctive', meaning: '虛擬語氣' }, { word: 'imperative', meaning: '必須的' }, { word: 'submit', meaning: '提交' }] },
+                        
+                        // 片語練習 - B2 級別 (5句)
+                        { level: 'B2', context: '片語', text: 'The manager cracked down on employees who arrived late.', keywords: ['crack down on', 'take strict measures'], translation: '經理對遲到的員工採取了嚴厲措施。', vocabulary: [{ word: 'crack down on', meaning: '嚴厲打擊' }, { word: 'take strict measures', meaning: '採取嚴厲措施' }] },
+                        { level: 'B2', context: '片語', text: 'The negotiations broke down after several hours of discussion.', keywords: ['break down', 'fail'], translation: '經過數小時討論後，談判破裂了。', vocabulary: [{ word: 'break down', meaning: '破裂' }, { word: 'fail', meaning: '失敗' }] },
+                        { level: 'B2', context: '片語', text: 'We need to iron out the details before signing the contract.', keywords: ['iron out', 'resolve problems'], translation: '我們需要在簽約前解決細節問題。', vocabulary: [{ word: 'iron out', meaning: '解決' }, { word: 'resolve problems', meaning: '解決問題' }] },
+                        { level: 'B2', context: '片語', text: 'The new policy has done away with many bureaucratic procedures.', keywords: ['do away with', 'eliminate'], translation: '新政策廢除了許多官僚程序。', vocabulary: [{ word: 'do away with', meaning: '廢除' }, { word: 'eliminate', meaning: '消除' }] },
+                        { level: 'B2', context: '片語', text: 'She finally came to terms with the loss of her job.', keywords: ['come to terms with', 'accept'], translation: '她終於接受了失去工作的事實。', vocabulary: [{ word: 'come to terms with', meaning: '接受' }, { word: 'accept', meaning: '接受' }] },
+                        
+                        // 原有B2句子
                         {
                             text: "The implementation of artificial intelligence in healthcare has revolutionized diagnostic procedures.",
                             translation: "人工智能在醫療保健領域的實施已經徹底改變了診斷程序。",
@@ -934,6 +1021,42 @@
                         }
                     ],
                     C1: [
+                        // C1 級別 (15句)
+                        { level: 'C1', context: '學術', text: 'The ramifications of this paradigm shift will undoubtedly reshape contemporary discourse.', keywords: ['ramifications', 'paradigm shift', 'contemporary', 'discourse'], translation: '這種範式轉變的影響無疑將重塑當代話語。', vocabulary: [{ word: 'ramifications', meaning: '影響' }, { word: 'paradigm shift', meaning: '範式轉變' }, { word: 'contemporary', meaning: '當代的' }, { word: 'discourse', meaning: '話語' }] },
+                        { level: 'C1', context: '商務', text: 'Stakeholders must scrutinize the viability of this unprecedented initiative.', keywords: ['stakeholders', 'scrutinize', 'viability', 'unprecedented'], translation: '利益相關者必須仔細審視這項前所未有的倡議的可行性。', vocabulary: [{ word: 'stakeholders', meaning: '利益相關者' }, { word: 'scrutinize', meaning: '仔細審視' }, { word: 'viability', meaning: '可行性' }, { word: 'unprecedented', meaning: '前所未有的' }] },
+                        { level: 'C1', context: '學術', text: 'The hypothesis posits an intricate relationship between cognitive processes and neuroplasticity.', keywords: ['hypothesis', 'posits', 'intricate', 'neuroplasticity'], translation: '這個假說提出了認知過程與神經可塑性之間複雜的關係。', vocabulary: [{ word: 'hypothesis', meaning: '假說' }, { word: 'posits', meaning: '提出' }, { word: 'intricate', meaning: '複雜的' }, { word: 'neuroplasticity', meaning: '神經可塑性' }] },
+                        { level: 'C1', context: '科技', text: 'Quantum computing represents a monumental leap in computational capabilities.', keywords: ['quantum computing', 'monumental', 'computational'], translation: '量子計算代表了計算能力的巨大飛躍。', vocabulary: [{ word: 'quantum computing', meaning: '量子計算' }, { word: 'monumental', meaning: '巨大的' }, { word: 'computational', meaning: '計算的' }] },
+                        { level: 'C1', context: '學術', text: 'The dissertation meticulously examines the epistemological foundations of modern philosophy.', keywords: ['dissertation', 'meticulously', 'epistemological', 'foundations'], translation: '這篇論文細緻地檢視了現代哲學的認識論基礎。', vocabulary: [{ word: 'dissertation', meaning: '論文' }, { word: 'meticulously', meaning: '細緻地' }, { word: 'epistemological', meaning: '認識論的' }, { word: 'foundations', meaning: '基礎' }] },
+                        { level: 'C1', context: '商務', text: 'Regulatory compliance necessitates comprehensive oversight and stringent protocols.', keywords: ['regulatory', 'compliance', 'oversight', 'stringent', 'protocols'], translation: '監管合規需要全面的監督和嚴格的協議。', vocabulary: [{ word: 'regulatory', meaning: '監管的' }, { word: 'compliance', meaning: '合規' }, { word: 'oversight', meaning: '監督' }, { word: 'stringent', meaning: '嚴格的' }, { word: 'protocols', meaning: '協議' }] },
+                        { level: 'C1', context: '學術', text: 'Scholars have endeavored to elucidate the ambiguities inherent in classical literature.', keywords: ['scholars', 'elucidate', 'ambiguities', 'inherent'], translation: '學者們努力闡明古典文學中固有的模糊性。', vocabulary: [{ word: 'scholars', meaning: '學者' }, { word: 'elucidate', meaning: '闡明' }, { word: 'ambiguities', meaning: '模糊性' }, { word: 'inherent', meaning: '固有的' }] },
+                        { level: 'C1', context: '科技', text: 'The proliferation of misinformation undermines the integrity of digital platforms.', keywords: ['proliferation', 'misinformation', 'undermines', 'integrity'], translation: '錯誤信息的擴散破壞了數位平台的完整性。', vocabulary: [{ word: 'proliferation', meaning: '擴散' }, { word: 'misinformation', meaning: '錯誤信息' }, { word: 'undermines', meaning: '破壞' }, { word: 'integrity', meaning: '完整性' }] },
+                        { level: 'C1', context: '商務', text: 'Diversification remains paramount for mitigating inherent financial risks.', keywords: ['diversification', 'paramount', 'mitigating', 'inherent'], translation: '多元化對於減輕固有財務風險仍然至關重要。', vocabulary: [{ word: 'diversification', meaning: '多元化' }, { word: 'paramount', meaning: '至關重要的' }, { word: 'mitigating', meaning: '減輕' }, { word: 'inherent', meaning: '固有的' }] },
+                        { level: 'C1', context: '學術', text: 'The nuanced interplay between socioeconomic factors warrants further investigation.', keywords: ['nuanced', 'interplay', 'socioeconomic', 'warrants'], translation: '社會經濟因素之間細微的相互作用值得進一步調查。', vocabulary: [{ word: 'nuanced', meaning: '細微的' }, { word: 'interplay', meaning: '相互作用' }, { word: 'socioeconomic', meaning: '社會經濟的' }, { word: 'warrants', meaning: '值得' }] },
+                        { level: 'C1', context: '學術', text: 'The empirical data substantiates the theoretical framework proposed earlier.', keywords: ['empirical', 'substantiates', 'theoretical', 'framework'], translation: '實證數據證實了先前提出的理論框架。', vocabulary: [{ word: 'empirical', meaning: '實證的' }, { word: 'substantiates', meaning: '證實' }, { word: 'theoretical', meaning: '理論的' }, { word: 'framework', meaning: '框架' }] },
+                        { level: 'C1', context: '商務', text: 'Organizational resilience hinges upon adaptive leadership and strategic foresight.', keywords: ['resilience', 'hinges', 'adaptive', 'foresight'], translation: '組織韌性取決於適應性領導和戰略遠見。', vocabulary: [{ word: 'resilience', meaning: '韌性' }, { word: 'hinges', meaning: '取決於' }, { word: 'adaptive', meaning: '適應性的' }, { word: 'foresight', meaning: '遠見' }] },
+                        { level: 'C1', context: '科技', text: 'Algorithmic bias perpetuates systemic inequalities in automated decision-making.', keywords: ['algorithmic', 'bias', 'perpetuates', 'systemic', 'inequalities'], translation: '算法偏見在自動化決策中延續了系統性不平等。', vocabulary: [{ word: 'algorithmic', meaning: '算法的' }, { word: 'bias', meaning: '偏見' }, { word: 'perpetuates', meaning: '延續' }, { word: 'systemic', meaning: '系統性的' }, { word: 'inequalities', meaning: '不平等' }] },
+                        { level: 'C1', context: '學術', text: 'The treatise delineates the conceptual distinctions between ethical paradigms.', keywords: ['treatise', 'delineates', 'conceptual', 'distinctions', 'paradigms'], translation: '這篇論文闡述了倫理範式之間的概念區別。', vocabulary: [{ word: 'treatise', meaning: '論文' }, { word: 'delineates', meaning: '闡述' }, { word: 'conceptual', meaning: '概念的' }, { word: 'distinctions', meaning: '區別' }, { word: 'paradigms', meaning: '範式' }] },
+                        { level: 'C1', context: '商務', text: 'Fiduciary responsibilities demand unwavering commitment to stakeholder interests.', keywords: ['fiduciary', 'unwavering', 'commitment', 'stakeholder'], translation: '受託責任要求對利益相關者利益的不懈承諾。', vocabulary: [{ word: 'fiduciary', meaning: '受託的' }, { word: 'unwavering', meaning: '不懈的' }, { word: 'commitment', meaning: '承諾' }, { word: 'stakeholder', meaning: '利益相關者' }] },
+                        { level: 'C1', context: '學術', text: 'The polemic discourse surrounding this topic remains contentious among academics.', keywords: ['polemic', 'discourse', 'contentious', 'academics'], translation: '圍繞這個話題的爭論性話語在學術界仍然存在爭議。', vocabulary: [{ word: 'polemic', meaning: '爭論性的' }, { word: 'discourse', meaning: '話語' }, { word: 'contentious', meaning: '有爭議的' }, { word: 'academics', meaning: '學術界' }] },
+                        { level: 'C1', context: '科技', text: 'Blockchain technology epitomizes decentralized ledger systems with immutable records.', keywords: ['blockchain', 'epitomizes', 'decentralized', 'immutable'], translation: '區塊鏈技術體現了具有不可變記錄的去中心化帳本系統。', vocabulary: [{ word: 'blockchain', meaning: '區塊鏈' }, { word: 'epitomizes', meaning: '體現' }, { word: 'decentralized', meaning: '去中心化的' }, { word: 'immutable', meaning: '不可變的' }] },
+                        { level: 'C1', context: '學術', text: 'The juxtaposition of these theoretical constructs illuminates underlying contradictions.', keywords: ['juxtaposition', 'constructs', 'illuminates', 'contradictions'], translation: '這些理論建構的並置揭示了潛在的矛盾。', vocabulary: [{ word: 'juxtaposition', meaning: '並置' }, { word: 'constructs', meaning: '建構' }, { word: 'illuminates', meaning: '揭示' }, { word: 'contradictions', meaning: '矛盾' }] },
+                        { level: 'C1', context: '商務', text: 'Synergistic collaborations catalyze innovation and expedite market penetration.', keywords: ['synergistic', 'collaborations', 'catalyze', 'expedite', 'penetration'], translation: '協同合作催化創新並加速市場滲透。', vocabulary: [{ word: 'synergistic', meaning: '協同的' }, { word: 'collaborations', meaning: '合作' }, { word: 'catalyze', meaning: '催化' }, { word: 'expedite', meaning: '加速' }, { word: 'penetration', meaning: '滲透' }] },
+                        
+                        // 文法練習 - C1 級別 (5句)
+                        { level: 'C1', context: '文法', text: 'Seldom have I encountered such dedication and professionalism.', keywords: ['inversion', 'seldom', 'have'], translation: '我很少遇到如此奉獻和專業精神。', vocabulary: [{ word: 'inversion', meaning: '倒裝' }, { word: 'seldom', meaning: '很少' }, { word: 'have', meaning: '有' }] },
+                        { level: 'C1', context: '文法', text: 'Should you require further assistance, please do not hesitate to contact us.', keywords: ['inversion', 'should', 'formal'], translation: '如果您需要進一步協助，請隨時與我們聯繫。', vocabulary: [{ word: 'inversion', meaning: '倒裝' }, { word: 'should', meaning: '如果' }, { word: 'formal', meaning: '正式的' }] },
+                        { level: 'C1', context: '文法', text: 'The phenomenon, unprecedented in its scope, has baffled researchers.', keywords: ['apposition', 'unprecedented', 'scope'], translation: '這個現象在其範圍內是前所未有的，令研究人員困惑。', vocabulary: [{ word: 'apposition', meaning: '同位語' }, { word: 'unprecedented', meaning: '前所未有的' }, { word: 'scope', meaning: '範圍' }] },
+                        { level: 'C1', context: '文法', text: 'Had it not been for your intervention, the situation would have deteriorated.', keywords: ['inversion', 'had it not been', 'conditional'], translation: '如果不是您的干預，情況會惡化。', vocabulary: [{ word: 'inversion', meaning: '倒裝' }, { word: 'had it not been', meaning: '如果不是' }, { word: 'conditional', meaning: '條件句' }] },
+                        { level: 'C1', context: '文法', text: 'Notwithstanding the challenges, the team persevered with unwavering resolve.', keywords: ['notwithstanding', 'formal connector'], translation: '儘管面臨挑戰，團隊以堅定的決心堅持不懈。', vocabulary: [{ word: 'notwithstanding', meaning: '儘管' }, { word: 'formal connector', meaning: '正式連接詞' }] },
+                        
+                        // 片語練習 - C1 級別 (5句)
+                        { level: 'C1', context: '片語', text: 'The government clamped down on tax evasion with stringent penalties.', keywords: ['clamp down on', 'suppress forcefully'], translation: '政府對逃稅行為採取了嚴厲的處罰措施。', vocabulary: [{ word: 'clamp down on', meaning: '嚴厲打擊' }, { word: 'suppress forcefully', meaning: '強力鎮壓' }] },
+                        { level: 'C1', context: '片語', text: 'His unethical behavior flew in the face of company policy.', keywords: ['fly in the face of', 'contradict'], translation: '他的不道德行為違反了公司政策。', vocabulary: [{ word: 'fly in the face of', meaning: '違反' }, { word: 'contradict', meaning: '矛盾' }] },
+                        { level: 'C1', context: '片語', text: 'The new evidence bears out the hypothesis we proposed earlier.', keywords: ['bear out', 'confirm', 'substantiate'], translation: '新證據證實了我們先前提出的假說。', vocabulary: [{ word: 'bear out', meaning: '證實' }, { word: 'confirm', meaning: '確認' }, { word: 'substantiate', meaning: '證實' }] },
+                        { level: 'C1', context: '片語', text: 'The committee will mull over the proposal before making a decision.', keywords: ['mull over', 'consider carefully'], translation: '委員會將仔細考慮這個提議，然後做出決定。', vocabulary: [{ word: 'mull over', meaning: '仔細考慮' }, { word: 'consider carefully', meaning: '仔細考慮' }] },
+                        { level: 'C1', context: '片語', text: 'The scandal brought about the downfall of several high-ranking officials.', keywords: ['bring about', 'cause', 'result in'], translation: '這起醜聞導致幾名高級官員下台。', vocabulary: [{ word: 'bring about', meaning: '導致' }, { word: 'cause', meaning: '造成' }, { word: 'result in', meaning: '導致' }] },
+                        
+                        // 原有C1句子
                         {
                             text: "The paradigm shift towards renewable energy necessitates comprehensive policy restructuring and substantial infrastructure investment.",
                             translation: "向可再生能源的範式轉變需要全面的政策重組和大量的基礎設施投資。",
@@ -1043,10 +1166,47 @@
             init() {
                 this.cacheElements();
                 this.bindEvents();
+                this.applyFilters();
                 this.loadSentence();
                 this.initSpeech();
                 this.initPerformanceMonitoring();
                 this.trackUserEngagement();
+            }
+
+            applyFilters() {
+                this.filteredSentences = [];
+                
+                // 收集所有句子
+                const allSentences = [];
+                Object.keys(this.sentences).forEach(level => {
+                    this.sentences[level].forEach(sentence => {
+                        // 確保句子有level和context屬性
+                        if (!sentence.level) sentence.level = level;
+                        if (!sentence.context) sentence.context = '日常對話';
+                        allSentences.push(sentence);
+                    });
+                });
+                
+                // 應用過濾器
+                this.filteredSentences = allSentences.filter(sentence => {
+                    const levelMatch = this.levelFilter === 'all' || sentence.level === this.levelFilter;
+                    const contextMatch = this.contextFilter === 'all' || sentence.context === this.contextFilter;
+                    return levelMatch && contextMatch;
+                });
+                
+                // 更新句子計數
+                this.elements.count.textContent = this.filteredSentences.length;
+                
+                // 重置當前句子索引
+                this.currentSentenceIndex = 0;
+                this.completed = 0;
+            }
+
+            getCurrentSentence() {
+                if (this.filteredSentences.length === 0) {
+                    return null;
+                }
+                return this.filteredSentences[this.currentSentenceIndex];
             }
 
             cacheElements() {
@@ -1066,7 +1226,9 @@
                     targetSentence: document.getElementById('target-sentence'),
                     translation: document.getElementById('translation'),
                     vocabulary: document.getElementById('vocabulary'),
-                    vocabContent: document.getElementById('vocab-content')
+                    vocabContent: document.getElementById('vocab-content'),
+                    contextFilter: document.getElementById('contextFilter'),
+                    count: document.getElementById('count')
                 };
             }
 
@@ -1162,13 +1324,23 @@
                         document.querySelector('.difficulty-btn.active').classList.remove('active');
                         e.target.classList.add('active');
                         this.currentLevel = e.target.dataset.level;
+                        this.levelFilter = e.target.dataset.level; // 同步更新 levelFilter
                         this.currentSentenceIndex = 0;
                         this.completed = 0;
+                        this.applyFilters(); // 重新應用過濾器
                         this.loadSentence();
                         
                         // Analytics tracking
                         this.trackEvent('difficulty_changed', { level: this.currentLevel });
                     });
+                });
+
+                // Filter events
+                this.elements.contextFilter.addEventListener('change', (e) => {
+                    this.contextFilter = e.target.value;
+                    this.applyFilters();
+                    this.loadSentence();
+                    this.trackEvent('context_filter_changed', { filter: this.contextFilter });
                 });
 
                 // Typing input with debounce
@@ -1202,11 +1374,17 @@
 
                 // Speech controls
                 this.elements.playSentenceBtn.addEventListener('click', () => {
-                    this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, this.speechRate);
+                    const current = this.getCurrentSentence();
+                    if (current) {
+                        this.speakText(current.text, this.speechRate);
+                    }
                 });
 
                 this.elements.playSlowBtn.addEventListener('click', () => {
-                    this.speakText(this.sentences[this.currentLevel][this.currentSentenceIndex].text, 0.6);
+                    const current = this.getCurrentSentence();
+                    if (current) {
+                        this.speakText(current.text, 0.6);
+                    }
                 });
 
                 this.elements.speedSlider.addEventListener('input', (e) => {
@@ -1373,27 +1551,34 @@
             }
 
             loadSentence() {
-                const sentences = this.sentences[this.currentLevel];
-                if (this.currentSentenceIndex >= sentences.length) {
+                if (this.filteredSentences.length === 0) {
+                    this.elements.targetSentence.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">沒有符合條件的句子，請調整過濾器設定。</div>';
+                    this.elements.translation.textContent = '';
+                    this.elements.vocabulary.style.display = 'none';
+                    this.elements.nextBtn.disabled = true;
+                    return;
+                }
+                
+                if (this.currentSentenceIndex >= this.filteredSentences.length) {
                     this.currentSentenceIndex = 0;
                 }
                 
-                const current = sentences[this.currentSentenceIndex];
+                const currentSentence = this.filteredSentences[this.currentSentenceIndex];
                 const sentenceElement = this.elements.targetSentence;
                 const translationElement = this.elements.translation;
                 const vocabElement = this.elements.vocabulary;
                 const vocabContent = this.elements.vocabContent;
 
                 // Display sentence with individual characters
-                sentenceElement.innerHTML = current.text
+                sentenceElement.innerHTML = currentSentence.text
                     .split('')
                     .map(char => `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`)
                     .join('');
 
-                translationElement.textContent = current.translation;
+                translationElement.textContent = currentSentence.translation;
 
                 // Show vocabulary with audio buttons
-                vocabContent.innerHTML = current.vocabulary
+                vocabContent.innerHTML = currentSentence.vocabulary
                     .map(item => `
                         <div class="vocab-item">
                             <span class="vocab-word" onclick="typingPractice.speakText('${item.word}', 0.8)">${item.word}</span>
@@ -1411,7 +1596,7 @@
                 this.currentCharIndex = 0;
                 this.startTime = null;
                 this.errors = 0;
-                this.totalChars = current.text.length;
+                this.totalChars = currentSentence.text.length;
 
                 this.updateProgress();
                 this.updateCharacterDisplay();
@@ -1422,7 +1607,12 @@
                 }
                 
                 // Update page title for SEO
-                document.title = `英文打字練習 ${this.currentLevel}級 - 句子 ${this.currentSentenceIndex + 1} | English Typing Practice`;
+                const currentSentenceForTitle = this.getCurrentSentence();
+                if (currentSentenceForTitle) {
+                    document.title = `英文打字練習 ${currentSentenceForTitle.level}級 - 句子 ${this.currentSentenceIndex + 1} | English Typing Practice`;
+                } else {
+                    document.title = `英文打字練習 | English Typing Practice`;
+                }
             }
 
             handleTyping(inputValue) {
@@ -1433,7 +1623,10 @@
                     this.performanceMetrics.typingStartTime = this.startTime;
                 }
 
-                const targetText = this.sentences[this.currentLevel][this.currentSentenceIndex].text;
+                const current = this.getCurrentSentence();
+                if (!current) return;
+                
+                const targetText = current.text;
                 const chars = document.querySelectorAll('.char');
 
                 // Reset all character classes
@@ -1536,24 +1729,24 @@
 
             nextSentence() {
                 this.currentSentenceIndex++;
-                if (this.currentSentenceIndex >= this.sentences[this.currentLevel].length) {
+                if (this.currentSentenceIndex >= this.filteredSentences.length) {
                     this.currentSentenceIndex = 0;
                     
                     // Track level completion
                     this.trackEvent('level_completed', {
                         level: this.currentLevel,
-                        totalSentences: this.sentences[this.currentLevel].length
+                        totalSentences: this.filteredSentences.length
                     });
                 }
                 this.loadSentence();
             }
 
             updateProgress() {
-                const total = this.sentences[this.currentLevel].length;
+                const total = this.filteredSentences.length;
                 const current = this.currentSentenceIndex + 1;
                 this.elements.progress.textContent = `${current}/${total}`;
                 
-                const percentage = (current / total) * 100;
+                const percentage = total > 0 ? (current / total) * 100 : 0;
                 this.elements.progressFill.style.width = percentage + '%';
             }
 
@@ -1655,12 +1848,12 @@
         "@context": "https://schema.org",
         "@type": "Course",
         "name": "免費英文打字練習課程",
-        "description": "提供B1到C1級別的英文打字練習，包含WPM測試、準確率統計和詞彙學習",
+        "description": "提供A2到C1級別的英文打字練習，包含WPM測試、準確率統計和詞彙學習",
         "provider": {
             "@type": "Organization",
             "name": "English Typing Practice"
         },
-        "educationalLevel": ["Intermediate", "Upper-Intermediate", "Advanced"],
+        "educationalLevel": ["Elementary", "Intermediate", "Upper-Intermediate", "Advanced"],
         "teaches": ["English Typing", "Keyboard Skills", "English Vocabulary"],
         "courseMode": "online",
         "isAccessibleForFree": true,
@@ -1694,7 +1887,7 @@
                 "name": "有哪些難度級別可以選擇？",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "我們提供B1（中級）、B2（中高級）、C1（高級）三個級別的英文句子練習，適合不同程度的學習者。"
+                    "text": "我們提供A2（初中級）、B1（中級）、B2（中高級）、C1（高級）四個級別的英文句子練習，適合不同程度的學習者。"
                 }
             },
             {
