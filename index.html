@@ -156,6 +156,101 @@
             flex-wrap: wrap;
         }
 
+        /* 模式選擇樣式 */
+        .mode-selector {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .mode-selector h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .mode-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mode-btn {
+            background: white;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #4CAF50;
+        }
+
+        .mode-btn.active {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .mode-icon {
+            font-size: 2.5em;
+            flex-shrink: 0;
+        }
+
+        .mode-content h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .mode-content p {
+            margin: 0 0 5px 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .mode-btn.active .mode-content p {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .mode-content small {
+            color: #999;
+            font-size: 0.8em;
+        }
+
+        .mode-btn.active .mode-content small {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .mode-options {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .mode-btn {
+                padding: 15px;
+                gap: 12px;
+            }
+            
+            .mode-icon {
+                font-size: 2em;
+            }
+        }
+
         .filters {
             display: flex;
             gap: 10px;
@@ -188,22 +283,104 @@
             align-items: center;
         }
 
-        .difficulty-btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-            background: #e0e0e0;
+        /* 難度選擇區域樣式 */
+        .difficulty-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .difficulty-header h3 {
             color: #333;
-            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .difficulty-header p {
+            color: #666;
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        .difficulty-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-btn {
+            background: white;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 14px;
+        }
+
+        .difficulty-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-color: #4CAF50;
         }
 
         .difficulty-btn.active {
-            background: #4CAF50;
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
-            transform: scale(1.05);
+        }
+
+        .difficulty-icon {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+
+        .difficulty-content h4 {
+            margin: 0 0 5px 0;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .difficulty-content p {
+            margin: 0 0 3px 0;
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        .difficulty-btn.active .difficulty-content p {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .difficulty-content small {
+            color: #999;
+            font-size: 0.75em;
+        }
+
+        .difficulty-btn.active .difficulty-content small {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .difficulty-options {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .difficulty-btn {
+                padding: 12px;
+                gap: 10px;
+            }
+            
+            .difficulty-icon {
+                font-size: 1.8em;
+            }
         }
 
         .display-options {
@@ -257,6 +434,62 @@
 
         .practice-area {
             padding: 30px;
+        }
+
+        /* 練習區域標題樣式 */
+        .practice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .current-settings {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .current-mode,
+        .current-level {
+            padding: 6px 12px;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .current-mode {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .reselect-btn {
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .reselect-btn:hover {
+            background: #e0e0e0;
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        .reselect-btn:focus {
+            outline: 3px solid #4CAF50;
+            outline-offset: 2px;
         }
 
         .sentence-display {
@@ -639,13 +872,82 @@
         </header>
 
         <nav class="controls" role="navigation" aria-label="練習設定">
-            <div class="difficulty-selector">
-                <span>選擇難度:</span>
-                <button class="difficulty-btn" data-level="all" aria-label="選擇所有難度">所有難度</button>
-                <button class="difficulty-btn" data-level="A2" aria-label="選擇A2初中級難度">A2 初中級</button>
-                <button class="difficulty-btn" data-level="B1" aria-label="選擇B1中級難度">B1 中級</button>
-                <button class="difficulty-btn active" data-level="B2" aria-label="選擇B2中高級難度">B2 中高級</button>
-                <button class="difficulty-btn" data-level="C1" aria-label="選擇C1高級難度">C1 高級</button>
+            <!-- 模式選擇區域 -->
+            <div class="mode-selector" id="mode-selector">
+                <h3>🎯 選擇練習模式</h3>
+                <div class="mode-options">
+                    <button class="mode-btn" id="listening-mode" data-mode="listening" aria-label="選擇聽力練習模式">
+                        <div class="mode-icon">🎧</div>
+                        <div class="mode-content">
+                            <h4>聽力練習模式</h4>
+                            <p>聽句子並將聽到的內容打出來</p>
+                            <small>適合提升聽力理解能力</small>
+                        </div>
+                    </button>
+                    <button class="mode-btn" id="typing-mode" data-mode="typing" aria-label="選擇純打字練習模式">
+                        <div class="mode-icon">⌨️</div>
+                        <div class="mode-content">
+                            <h4>純打字練習模式</h4>
+                            <p>看著英文句子進行打字練習</p>
+                            <small>適合提升打字速度和準確率</small>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 難度選擇區域 (初始隱藏) -->
+            <div class="difficulty-selector" id="difficulty-selector" style="display: none;">
+                <div class="difficulty-header">
+                    <h3>📚 選擇練習難度</h3>
+                    <p>請選擇適合您英語程度的難度級別</p>
+                </div>
+                
+                <div class="difficulty-options">
+                    <button class="difficulty-btn" data-level="all" aria-label="選擇所有難度">
+                        <div class="difficulty-icon">🌟</div>
+                        <div class="difficulty-content">
+                            <h4>所有難度</h4>
+                            <p>混合所有級別的句子</p>
+                            <small>適合綜合練習</small>
+                        </div>
+                    </button>
+                    
+                    <button class="difficulty-btn" data-level="A2" aria-label="選擇A2初中級難度">
+                        <div class="difficulty-icon">🌱</div>
+                        <div class="difficulty-content">
+                            <h4>A2 初中級</h4>
+                            <p>基礎日常用語</p>
+                            <small>適合初學者</small>
+                        </div>
+                    </button>
+                    
+                    <button class="difficulty-btn" data-level="B1" aria-label="選擇B1中級難度">
+                        <div class="difficulty-icon">🌿</div>
+                        <div class="difficulty-content">
+                            <h4>B1 中級</h4>
+                            <p>日常對話與簡單論述</p>
+                            <small>適合有基礎者</small>
+                        </div>
+                    </button>
+                    
+                    <button class="difficulty-btn active" data-level="B2" aria-label="選擇B2中高級難度">
+                        <div class="difficulty-icon">🌳</div>
+                        <div class="difficulty-content">
+                            <h4>B2 中高級</h4>
+                            <p>複雜論述與專業內容</p>
+                            <small>適合中高級學習者</small>
+                        </div>
+                    </button>
+                    
+                    <button class="difficulty-btn" data-level="C1" aria-label="選擇C1高級難度">
+                        <div class="difficulty-icon">🏔️</div>
+                        <div class="difficulty-content">
+                            <h4>C1 高級</h4>
+                            <p>學術與專業高級內容</p>
+                            <small>適合高級學習者</small>
+                        </div>
+                    </button>
+                </div>
                 
                 <div class="speed-control" role="group" aria-label="語速控制">
                     <label for="speed-slider">語速:</label>
@@ -692,7 +994,17 @@
             </div>
         </nav>
 
-        <main class="practice-area" role="main">
+        <main class="practice-area" id="practice-area" role="main" style="display: none;">
+            <div class="practice-header">
+                <div class="current-settings">
+                    <span class="current-mode" id="current-mode-display"></span>
+                    <span class="current-level" id="current-level-display"></span>
+                </div>
+                <button class="reselect-btn" id="reselect-btn" aria-label="重新選擇模式和難度">
+                    🔄 重新選擇
+                </button>
+            </div>
+            
             <section class="sentence-display" aria-label="練習句子">
                 <div class="sentence" id="target-sentence" role="text" aria-label="目標句子" aria-live="polite"></div>
                 <div class="audio-controls" role="group" aria-label="語音控制">
@@ -761,6 +1073,10 @@
                 this.contextFilter = 'all';
                 this.hideChinese = false;
                 this.hideEnglish = false;
+                
+                // 新增模式相關屬性
+                this.currentMode = null; // 'listening' 或 'typing'
+                this.modeSelected = false;
                 
                 // Cache DOM elements for better performance
                 this.elements = {};
@@ -1204,10 +1520,13 @@
                 this.cacheElements();
                 this.bindEvents();
                 this.applyFilters();
-                this.loadSentence();
+                this.loadSentence(); // 這會顯示"請先選擇練習模式"的提示
                 this.initSpeech();
                 this.initPerformanceMonitoring();
                 this.trackUserEngagement();
+                
+                // 初始化時隱藏難度選擇器
+                this.elements.difficultySelector.style.display = 'none';
             }
 
             applyFilters() {
@@ -1267,7 +1586,18 @@
                     vocabulary: document.getElementById('vocabulary'),
                     vocabContent: document.getElementById('vocab-content'),
                     contextFilter: document.getElementById('contextFilter'),
-                    count: document.getElementById('count')
+                    count: document.getElementById('count'),
+                    // 新增模式選擇相關元素
+                    modeSelector: document.getElementById('mode-selector'),
+                    difficultySelector: document.getElementById('difficulty-selector'),
+                    listeningModeBtn: document.getElementById('listening-mode'),
+                    typingModeBtn: document.getElementById('typing-mode'),
+                    // 新增練習區域元素
+                    practiceArea: document.getElementById('practice-area'),
+                    // 新增練習區域標題元素
+                    currentModeDisplay: document.getElementById('current-mode-display'),
+                    currentLevelDisplay: document.getElementById('current-level-display'),
+                    reselectBtn: document.getElementById('reselect-btn')
                 };
             }
 
@@ -1357,17 +1687,39 @@
             }
 
             bindEvents() {
+                // 模式選擇事件
+                this.elements.listeningModeBtn.addEventListener('click', (e) => {
+                    this.selectMode('listening');
+                });
+
+                this.elements.typingModeBtn.addEventListener('click', (e) => {
+                    this.selectMode('typing');
+                });
+
+                // 重新選擇按鈕事件
+                this.elements.reselectBtn.addEventListener('click', (e) => {
+                    this.reselectModeAndDifficulty();
+                });
+
                 // Difficulty selection
                 document.querySelectorAll('.difficulty-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        document.querySelector('.difficulty-btn.active').classList.remove('active');
-                        e.target.classList.add('active');
-                        this.currentLevel = e.target.dataset.level;
-                        this.levelFilter = e.target.dataset.level; // 同步更新 levelFilter
+                        // 移除所有按鈕的 active 狀態
+                        document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+                        
+                        // 添加當前按鈕的 active 狀態
+                        e.currentTarget.classList.add('active');
+                        
+                        // 獲取難度級別
+                        this.currentLevel = e.currentTarget.dataset.level;
+                        this.levelFilter = e.currentTarget.dataset.level;
                         this.currentSentenceIndex = 0;
                         this.completed = 0;
-                        this.applyFilters(); // 重新應用過濾器
+                        this.applyFilters();
                         this.loadSentence();
+                        
+                        // 顯示練習區域
+                        this.showPracticeArea();
                         
                         // Analytics tracking
                         this.trackEvent('difficulty_changed', { level: this.currentLevel });
@@ -1605,6 +1957,17 @@
             }
 
             loadSentence() {
+                // 如果模式未選擇，顯示提示訊息
+                if (!this.modeSelected) {
+                    this.elements.targetSentence.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">請先選擇練習模式</div>';
+                    this.elements.translation.textContent = '';
+                    this.elements.vocabulary.style.display = 'none';
+                    this.elements.nextBtn.disabled = true;
+                    // 確保練習區域保持隱藏
+                    this.elements.practiceArea.style.display = 'none';
+                    return;
+                }
+                
                 if (this.filteredSentences.length === 0) {
                     this.elements.targetSentence.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">沒有符合條件的句子，請調整過濾器設定。</div>';
                     this.elements.translation.textContent = '';
@@ -1819,6 +2182,93 @@
                 } else {
                     this.elements.targetSentence.style.display = 'block';
                 }
+            }
+
+            selectMode(mode) {
+                this.currentMode = mode;
+                this.modeSelected = true;
+                
+                // 更新按鈕狀態
+                document.querySelectorAll('.mode-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                if (mode === 'listening') {
+                    this.elements.listeningModeBtn.classList.add('active');
+                    // 聽力模式：隱藏英文句子，顯示中文翻譯
+                    this.hideEnglish = true;
+                    this.hideChinese = false;
+                } else if (mode === 'typing') {
+                    this.elements.typingModeBtn.classList.add('active');
+                    // 純打字模式：顯示英文句子，隱藏中文翻譯
+                    this.hideEnglish = false;
+                    this.hideChinese = true;
+                }
+                
+                // 隱藏模式選擇器，顯示難度選擇器
+                this.elements.modeSelector.style.display = 'none';
+                this.elements.difficultySelector.style.display = 'flex';
+                
+                // 更新顯示
+                this.updateDisplay();
+                
+                // 追蹤事件
+                this.trackEvent('mode_selected', { mode: mode });
+                
+                // 重新載入句子
+                this.applyFilters();
+                this.loadSentence();
+            }
+
+            showPracticeArea() {
+                // 隱藏難度選擇區域
+                this.elements.difficultySelector.style.display = 'none';
+                
+                // 顯示練習區域
+                this.elements.practiceArea.style.display = 'block';
+                
+                // 更新當前設定顯示
+                this.updateCurrentSettingsDisplay();
+                
+                // 追蹤事件
+                this.trackEvent('practice_area_shown', { 
+                    mode: this.currentMode, 
+                    level: this.currentLevel 
+                });
+            }
+
+            updateCurrentSettingsDisplay() {
+                // 更新模式顯示
+                const modeText = this.currentMode === 'listening' ? '🎧 聽力練習' : '⌨️ 純打字練習';
+                this.elements.currentModeDisplay.textContent = modeText;
+                
+                // 更新難度顯示
+                const levelText = this.currentLevel === 'all' ? '🌟 所有難度' : 
+                                 this.currentLevel === 'A2' ? '🌱 A2 初中級' :
+                                 this.currentLevel === 'B1' ? '🌿 B1 中級' :
+                                 this.currentLevel === 'B2' ? '🌳 B2 中高級' :
+                                 this.currentLevel === 'C1' ? '🏔️ C1 高級' : this.currentLevel;
+                this.elements.currentLevelDisplay.textContent = levelText;
+            }
+
+            reselectModeAndDifficulty() {
+                // 隱藏練習區域
+                this.elements.practiceArea.style.display = 'none';
+                
+                // 顯示模式選擇器
+                this.elements.modeSelector.style.display = 'block';
+                
+                // 重置模式選擇狀態
+                this.modeSelected = false;
+                this.currentMode = null;
+                
+                // 移除所有模式按鈕的 active 狀態
+                document.querySelectorAll('.mode-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // 追蹤事件
+                this.trackEvent('reselect_mode_and_difficulty', {});
             }
 
             updateCharacterDisplay() {
